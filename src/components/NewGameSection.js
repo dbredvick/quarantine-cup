@@ -7,7 +7,13 @@ import FormAlert from "./FormAlert";
 import Form from "react-bootstrap/Form";
 import FormField from "./FormField";
 import Button from "react-bootstrap/Button";
-import { useGame, createGame, updateGame, useUser } from "../util/db";
+import {
+  useGame,
+  createGame,
+  updateGame,
+  useUser,
+  useSingleGame,
+} from "../util/db";
 import Spinner from "react-bootstrap/Spinner";
 import { useAuth } from "./../util/auth.js";
 import { useRouter } from "next/router";
@@ -19,17 +25,17 @@ function NewGameSection(props) {
   const [formAlert, setFormAlert] = useState(null);
   const router = useRouter();
 
-  const isJoining = router.query.join;
-  const joinGameId = router.query.joinGameId;
+  const code = router.query.code;
+  const isJoining = router.query.action === "join";
 
   // Fetch user from database
   const uid = auth.user && auth.user.uid;
   const { data: user, status } = useUser(uid);
   const { data: games, status: gameStatus } = useGame(uid);
-
+  const { data: singleGame, status: otherStatus } = useSingleGame(uid, code);
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     // Show pending indicator
     setPending(true);
 
@@ -41,7 +47,11 @@ function NewGameSection(props) {
 
   // Show loading indicator until
   // database query completes.
-  if (status === "loading" || gameStatus === "loading") {
+  if (
+    status === "loading" ||
+    gameStatus === "loading" ||
+    otherStatus === "loading"
+  ) {
     return "Loading ...";
   }
   return (
@@ -71,14 +81,27 @@ function NewGameSection(props) {
             <FormField
               name="name"
               type="text"
-              label="Name"
+              label="Your name"
               defaultValue=""
               placeholder="Name"
               error={errors.name}
               inputRef={register({
-                required: "Please enter your name"
+                required: "Please enter your name",
               })}
             ></FormField>
+            {isJoining && (
+              <FormField
+                name="code"
+                type="text"
+                label="Room Code"
+                defaultValue={code ? singleGame.roomCode : ""}
+                placeholder="Name"
+                error={errors.name}
+                inputRef={register({
+                  required: "Please enter your name",
+                })}
+              ></FormField>
+            )}
           </Form.Group>
           <Button type="submit" disabled={pending}>
             <span>Let's play</span>

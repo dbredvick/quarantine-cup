@@ -22,19 +22,19 @@ function IndexPage(props) {
         buttonText="New game"
         buttonColor="primary"
         secondButtonText="Join game"
-        image="https://uploads.divjoy.com/undraw-japan_ubgk.svg"
+        image="/drinking.svg"
         buttonOnClick={() => {
           // Navigate to pricing page
           router.push({
             pathname: "/game",
-            query: { action: "new" }
+            query: { action: "new" },
           });
         }}
         secondButtonOnClick={() => {
           // Navigate to pricing page
           router.push({
             pathname: "/game",
-            query: { action: "join" }
+            query: { action: "join" },
           });
         }}
       ></HeroSection>

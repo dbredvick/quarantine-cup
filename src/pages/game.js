@@ -5,6 +5,7 @@ import NewGameSection from "../components/NewGameSection";
 function GamePage(props) {
   const router = useRouter();
   let action = router.query?.action;
+  let code = router.query?.code;
   const auth = useAuth();
 
   useEffect(() => {
@@ -39,7 +40,11 @@ function GamePage(props) {
       {action === "join" && (
         <NewGameSection
           title="Join a game"
-          subtitle="Ask the host for the access code"
+          subtitle={
+            code
+              ? `Your room code is ${code}.`
+              : `Ask the of the game for the room code`
+          }
           join={true}
         />
       )}
