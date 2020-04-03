@@ -15,7 +15,7 @@ function AuthTypePage(props) {
       bgImageOpacity={1}
       inputSize="lg"
       type={type}
-      providers={["google", "facebook", "twitter"]}
+      providers={["google"]}
       afterAuthPath="/game"
     ></AuthSection>
   );

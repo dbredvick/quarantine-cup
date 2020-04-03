@@ -1,7 +1,8 @@
-const requireAuth = require("./_require-auth.js");
 const firebaseAdmin = require("./_firebase");
 
 export const useGameByIdOrCode = async (gameId) => {
+  const db = firebaseAdmin.firestore();
+
   let gameData;
   let error;
 
