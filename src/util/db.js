@@ -8,7 +8,6 @@ export function useUser(uid) {
   // Query to fetch user
   const query = () => apiRequest(`user-get?uid=${uid}`);
   // Fetch data with react-query
-  // Docs: https://github.com/tannerlinsley/react-query#queries
   return useQuery(cacheKey, query);
 }
 
@@ -27,4 +26,42 @@ export function updateUser(uid, data) {
 // Create a new user
 export function createUser(uid, data) {
   return apiRequest("user-create", "POST", { uid, ...data });
+}
+
+// GAME
+
+// Fetch and subscribe to game data
+export function useGame(uid) {
+  // Unique cache key for this query
+  const cacheKey = uid && ["game", { uid }];
+  // Query to fetch user
+  const query = () => apiRequest(`game-get?uid=${uid}`);
+  // Fetch data with react-query
+  return useQuery(cacheKey, query);
+}
+
+export function useSingleGame(uid, gameId) {
+  // Unique cache key for this query
+  const cacheKey = ["game", { gameId, uid }];
+  // Query to fetch user
+  const query = () => apiRequest(`game-get?uid=${uid}&gameId=${gameId}`);
+  // Fetch data with react-query
+  return useQuery(cacheKey, query);
+}
+
+// Update an existing game
+export function updateGame(uid, data) {
+  // Send API request
+  return apiRequest(`game-update?uid=${uid}`, "PATCH", data).then(user => {
+    const cacheKey = ["game", { uid }];
+    // Update cache (and as a result, any component that has called useUser)
+    queryCache.setQueryData(cacheKey, user);
+    // Return the updated user
+    return user;
+  });
+}
+
+// Create a new game
+export function createGame(uid, data) {
+  return apiRequest("game-create", "POST", { uid, ...data });
 }

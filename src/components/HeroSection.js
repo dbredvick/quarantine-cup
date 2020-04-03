@@ -33,6 +33,14 @@ function HeroSection(props) {
             >
               {props.buttonText}
             </Button>
+            <Button
+              variant={props.buttonColor}
+              size="lg"
+              style={{ marginLeft: "12px" }}
+              onClick={props.secondButtonOnClick}
+            >
+              {props.secondButtonText}
+            </Button>
           </Col>
           <Col className="offset-lg-1 mt-5 mt-lg-0 ">
             <figure className="HeroSection__image-container mx-auto">

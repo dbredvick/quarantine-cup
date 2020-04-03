@@ -35,17 +35,13 @@ function Footer(props) {
               <a>Contact</a>
             </Link>
 
-            <a
-              target="_blank"
-              href="https://medium.com"
-              rel="noopener noreferrer"
-            >
+            <a target="_blank" href="https://drew.tech">
               Blog
             </a>
           </div>
           <div className="social right">
             <a
-              href="https://twitter.com"
+              href="https://twitter.com/dbredvick"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -54,16 +50,7 @@ function Footer(props) {
               </span>
             </a>
             <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="icon">
-                <i className="fab fa-facebook-f"></i>
-              </span>
-            </a>
-            <a
-              href="https://instagram.com"
+              href="https://instagram.com/drewbredvick"
               target="_blank"
               rel="noopener noreferrer"
             >

@@ -40,8 +40,8 @@ class MyApp extends App {
             size="sm"
             bgImage=""
             bgImageOpacity={1}
-            description="A short description of what you do here"
-            copyright="© 2019 Company"
+            description="Quarantine games for all."
+            copyright="© 2020 Drew Bredvick"
             logo="https://uploads.divjoy.com/logo.svg"
           ></Footer>
         </>

@@ -16,7 +16,7 @@ function AuthTypePage(props) {
       inputSize="lg"
       type={type}
       providers={["google", "facebook", "twitter"]}
-      afterAuthPath="/dashboard"
+      afterAuthPath="/game"
     ></AuthSection>
   );
 }

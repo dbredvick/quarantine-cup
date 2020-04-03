@@ -17,17 +17,28 @@ function IndexPage(props) {
         size="md"
         bgImage=""
         bgImageOpacity={1}
-        title="Your landing page title here"
-        subtitle="This landing page is perfect for showing off your awesome product and driving people to sign up for a paid plan."
-        buttonText="Get Started"
+        title="Quarantine Cup"
+        subtitle="King's cup, but remote-first."
+        buttonText="New game"
         buttonColor="primary"
+        secondButtonText="Join game"
         image="https://uploads.divjoy.com/undraw-japan_ubgk.svg"
         buttonOnClick={() => {
           // Navigate to pricing page
-          router.push("/pricing");
+          router.push({
+            pathname: "/game",
+            query: { action: "new" }
+          });
+        }}
+        secondButtonOnClick={() => {
+          // Navigate to pricing page
+          router.push({
+            pathname: "/game",
+            query: { action: "join" }
+          });
         }}
       ></HeroSection>
-      <ClientsSection
+      {/* <ClientsSection
         bg="light"
         textColor="dark"
         size="sm"
@@ -35,17 +46,17 @@ function IndexPage(props) {
         bgImageOpacity={1}
         title=""
         subtitle=""
-      ></ClientsSection>
+      ></ClientsSection> */}
       <FeaturesSection
         bg="white"
         textColor="dark"
         size="md"
         bgImage=""
         bgImageOpacity={1}
-        title="Features"
+        title="The Rules"
         subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
       ></FeaturesSection>
-      <TestimonialsSection
+      {/* <TestimonialsSection
         bg="light"
         textColor="dark"
         size="md"
@@ -53,8 +64,8 @@ function IndexPage(props) {
         bgImageOpacity={1}
         title="Here's what people are saying"
         subtitle=""
-      ></TestimonialsSection>
-      <NewsletterSection
+      ></TestimonialsSection> */}
+      {/* <NewsletterSection
         bg="white"
         textColor="dark"
         size="md"
@@ -66,7 +77,7 @@ function IndexPage(props) {
         buttonColor="primary"
         inputPlaceholder="Enter your email"
         subscribedMessage="You are now subscribed!"
-      ></NewsletterSection>
+      ></NewsletterSection> */}
     </>
   );
 }

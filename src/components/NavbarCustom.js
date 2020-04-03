@@ -32,13 +32,16 @@ function NavbarCustom(props) {
           <Nav>
             {auth.user && (
               <NavDropdown id="dropdown" title="Account" alignRight={true}>
-                <Link href="/dashboard" passHref>
-                  <NavDropdown.Item active={false}>Dashboard</NavDropdown.Item>
+                <Link href="/game?action=new" passHref>
+                  <NavDropdown.Item active={false}>New game</NavDropdown.Item>
+                </Link>
+                <Link href="/game?action=join" passHref>
+                  <NavDropdown.Item active={false}>Join game</NavDropdown.Item>
                 </Link>
 
-                <Link href="/settings" passHref>
+                {/* <Link href="/settings" passHref>
                   <NavDropdown.Item active={false}>Settings</NavDropdown.Item>
-                </Link>
+                </Link> */}
 
                 <Dropdown.Divider></Dropdown.Divider>
 
