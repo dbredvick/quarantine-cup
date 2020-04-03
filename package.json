@@ -30,8 +30,8 @@
     "build": "npm run build-decrypt && next build",
     "start": "next start",
     "test": "jest",
-    "build-encrypt": "./build/encrypt.sh",
-    "build-decrypt": "./build/decrypt.sh",
+    "build-encrypt": "./build-scripts/encrypt.sh",
+    "build-decrypt": "./build-scripts/decrypt.sh",
     "encrypt": "openssl enc -aes-256-cbc -salt -in ./quarantine-cup-service-acc.json -out ./quarantine-cup-service-acc.enc -k",
     "decrypt": "openssl enc -aes-256-cbc -d -in ./quarantine-cup-service-acc.enc -out ./quarantine-cup-service-acc.json -k"
   },
