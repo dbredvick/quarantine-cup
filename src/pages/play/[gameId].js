@@ -9,7 +9,9 @@ export default function Play() {
 
   useEffect(() => {
     if (auth.user === false) {
-      router.push("/auth/signin");
+      const redirectTo = encodeURIComponent(window.location.href);
+      // might need to change this to just the path not the window location
+      router.push(`/auth/signin?redirect=${redirectTo}`);
     }
   }, [auth, router]);
 

@@ -10,7 +10,9 @@ function SettingsPage(props) {
   // Redirect if not signed in.
   useEffect(() => {
     if (auth.user === false) {
-      router.push("/auth/signin");
+      const redirectTo = encodeURIComponent(window.location.href);
+
+      router.push(`/auth/signin?redirect=${redirectTo}`);
     }
   }, [auth, router]);
 

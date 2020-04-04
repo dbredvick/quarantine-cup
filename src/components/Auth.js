@@ -7,13 +7,18 @@ import { useRouter } from "next/router";
 
 function Auth(props) {
   const router = useRouter();
+  const redirectTo = router.query.redirect;
   const [formAlert, setFormAlert] = useState(null);
 
-  const handleAuth = user => {
-    router.push(props.afterAuthPath);
+  const handleAuth = (user) => {
+    if (redirectTo) {
+      router.push(decodeURIComponent(redirectTo));
+    } else {
+      router.push(props.afterAuthPath);
+    }
   };
 
-  const handleFormAlert = data => {
+  const handleFormAlert = (data) => {
     setFormAlert(data);
   };
 
@@ -46,10 +51,11 @@ function Auth(props) {
                 providers={props.providers}
                 showLastUsed={true}
                 onAuth={handleAuth}
-                onError={message => {
+                onError={(message) => {
+                  console.log(message);
                   handleFormAlert({
                     type: "error",
-                    message: message
+                    message: message,
                   });
                 }}
               ></AuthSocial>
