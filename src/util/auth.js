@@ -22,7 +22,7 @@ function useProvideAuth() {
   const [user, setUser] = useState(null);
 
   // Handle a new user object (updates db and sets user state)
-  const handleUser = rawUser => {
+  const handleUser = (rawUser) => {
     if (rawUser) {
       // Get user object in format expected by front-end
       const user = formatUser(rawUser);
@@ -42,19 +42,25 @@ function useProvideAuth() {
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(response => handleUser(response.user));
+      .then(
+        (response) => handleUser(response.user),
+        (err) => console.log(err)
+      );
   };
 
   const signin = (email, password) => {
     return firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(response => handleUser(response.user));
+      .then(
+        (response) => handleUser(response.user),
+        (err) => console.log(err)
+      );
   };
 
-  const signinWithProvider = providerName => {
+  const signinWithProvider = (providerName) => {
     const { providerMethod, parameters } = providers.find(
-      p => p.name === providerName
+      (p) => p.name === providerName
     );
 
     const provider = new providerMethod();
@@ -65,23 +71,32 @@ function useProvideAuth() {
     return firebase
       .auth()
       .signInWithPopup(provider)
-      .then(response => handleUser(response.user));
+      .then(
+        (response) => handleUser(response.user),
+        (err) => console.log(err)
+      );
   };
 
   const signout = () => {
-    return firebase
-      .auth()
-      .signOut()
-      .then(() => handleUser(false));
+    return (
+      firebase
+        .auth()
+        .signOut()
+        .then(() => handleUser(false)),
+      (err) => console.log(err)
+    );
   };
 
-  const sendPasswordResetEmail = email => {
+  const sendPasswordResetEmail = (email) => {
     return firebase
       .auth()
       .sendPasswordResetEmail(email)
-      .then(() => {
-        return true;
-      });
+      .then(
+        () => {
+          return true;
+        },
+        (err) => console.log(err)
+      );
   };
 
   const confirmPasswordReset = (password, code) => {
@@ -96,16 +111,19 @@ function useProvideAuth() {
       });
   };
 
-  const updateEmail = email => {
+  const updateEmail = (email) => {
     return firebase
       .auth()
       .currentUser.updateEmail(email)
-      .then(() => {
-        handleUser(firebase.auth().currentUser);
-      });
+      .then(
+        () => {
+          handleUser(firebase.auth().currentUser);
+        },
+        (err) => console.log(err)
+      );
   };
 
-  const updatePassword = password => {
+  const updatePassword = (password) => {
     return firebase.auth().currentUser.updatePassword(password);
   };
 
@@ -126,34 +144,34 @@ function useProvideAuth() {
     sendPasswordResetEmail,
     confirmPasswordReset,
     updateEmail,
-    updatePassword
+    updatePassword,
   };
 }
 
 // Format user object
 // If there are extra fields you want from the original user
 // object then you'd add those here.
-const formatUser = user => {
+const formatUser = (user) => {
   return {
     uid: user.uid,
     email: user.email,
     // Create an array containing the user's providers (password, google, etc).
     providers: user.providerData.map(({ providerId }) => {
       // Get the name for this providerId
-      return providers.find(p => p.id === providerId).name;
-    })
+      return providers.find((p) => p.id === providerId).name;
+    }),
   };
 };
 
 const providers = [
   {
     id: "password",
-    name: "password"
+    name: "password",
   },
   {
     id: "google.com",
     name: "google",
-    providerMethod: firebase.auth.GoogleAuthProvider
+    providerMethod: firebase.auth.GoogleAuthProvider,
   },
   {
     id: "facebook.com",
@@ -161,21 +179,21 @@ const providers = [
     providerMethod: firebase.auth.FacebookAuthProvider,
     parameters: {
       // Tell fb to show popup size UI instead of full website
-      display: "popup"
-    }
+      display: "popup",
+    },
   },
   {
     id: "twitter.com",
     name: "twitter",
-    providerMethod: firebase.auth.TwitterAuthProvider
+    providerMethod: firebase.auth.TwitterAuthProvider,
   },
   {
     id: "github.com",
     name: "github",
-    providerMethod: firebase.auth.GithubAuthProvider
-  }
+    providerMethod: firebase.auth.GithubAuthProvider,
+  },
 ];
 
-const getFromQueryString = key => {
+const getFromQueryString = (key) => {
   return queryString.parse(window.location.search)[key];
 };

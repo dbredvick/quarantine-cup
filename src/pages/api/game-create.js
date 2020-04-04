@@ -10,7 +10,7 @@ export default requireAuth(async (req, res) => {
   if (body.uid !== user.uid) {
     return res.send({
       status: "error",
-      message: "Created game must have the same uid as authenticated user"
+      message: "Created game must have the same uid as authenticated user",
     });
   }
 
@@ -24,7 +24,8 @@ export default requireAuth(async (req, res) => {
     users: [{ name: userData.name, uid: user.uid, status: "host" }],
     state: generateDeckOfCards(),
     owner: user.uid,
-    roomCode: hri.random()
+    roomCode: hri.random(),
+    status: "created",
   };
 
   const db = firebaseAdmin.firestore();
@@ -33,7 +34,7 @@ export default requireAuth(async (req, res) => {
     const result = { ...game, id: gameRef.id };
     res.json({
       status: "success",
-      data: result
+      data: result,
     });
   } catch (err) {
     return res.status(500).json(err);

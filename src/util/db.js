@@ -14,7 +14,7 @@ export function useUser(uid) {
 // Update an existing user
 export function updateUser(uid, data) {
   // Send API request
-  return apiRequest(`user-update?uid=${uid}`, "PATCH", data).then(user => {
+  return apiRequest(`user-update?uid=${uid}`, "PATCH", data).then((user) => {
     const cacheKey = ["users", { uid }];
     // Update cache (and as a result, any component that has called useUser)
     queryCache.setQueryData(cacheKey, user);
@@ -50,10 +50,14 @@ export function useSingleGame(uid, gameId) {
 }
 
 // Update an existing game
-export function updateGame(uid, data) {
+export function updateGame(gameId, uid, data) {
   // Send API request
-  return apiRequest(`game-update?uid=${uid}`, "PATCH", data).then(user => {
-    const cacheKey = ["game", { uid }];
+  return apiRequest(
+    `game-update?gameId=${gameId}&uid=${uid}`,
+    "PATCH",
+    data
+  ).then((user) => {
+    const cacheKey = ["game", { gameId, uid }];
     // Update cache (and as a result, any component that has called useUser)
     queryCache.setQueryData(cacheKey, user);
     // Return the updated user

@@ -1,6 +1,7 @@
 const requireAuth = require("./_require-auth.js");
 const firebaseAdmin = require("./_firebase");
 import { useGameByIdOrCode } from "./game-helpers";
+
 export default requireAuth(async (req, res) => {
   const user = req.user;
   const { uid, gameId } = req.query;
@@ -23,11 +24,12 @@ export default requireAuth(async (req, res) => {
   }
 
   if (gameId) {
-    let [data, err] = useGameByIdOrCode(gameId);
+    let [data, err] = await useGameByIdOrCode(gameId);
     gameData = data;
 
     if (err) {
       res.json({ status: "error", error: err, data: "game not found" });
+      console.log(err);
     }
   }
 

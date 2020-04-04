@@ -13,6 +13,7 @@ import {
   updateGame,
   useUser,
   useSingleGame,
+  updateUser,
 } from "../util/db";
 import Spinner from "react-bootstrap/Spinner";
 import { useAuth } from "./../util/auth.js";
@@ -32,28 +33,29 @@ function NewGameSection(props) {
   const uid = auth.user && auth.user.uid;
   const { data: user, status } = useUser(uid);
   const { data: games, status: gameStatus } = useGame(uid);
-  const { data: singleGame, status: otherStatus } = useSingleGame(uid, code);
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = async (data) => {
     // Show pending indicator
     setPending(true);
-
-    const game = await createGame(user.uid, { name: data.name });
+    let game;
+    if (isJoining) {
+      // update existing game with new user
+      game = await updateGame(code, uid, { name: data.name });
+    } else {
+      // create existing game thing
+      game = await createGame(user.uid, { name: data.name });
+    }
     setPending(false);
-    console.log(game);
     router.push(`/play/${game.id}`);
   };
 
   // Show loading indicator until
   // database query completes.
-  if (
-    status === "loading" ||
-    gameStatus === "loading" ||
-    otherStatus === "loading"
-  ) {
+  if (status === "loading" || gameStatus === "loading") {
     return "Loading ...";
   }
+
   return (
     <Section
       bg={props.bg}
@@ -94,7 +96,7 @@ function NewGameSection(props) {
                 name="code"
                 type="text"
                 label="Room Code"
-                defaultValue={code ? singleGame.roomCode : ""}
+                defaultValue={code ? code : ""}
                 placeholder="Name"
                 error={errors.name}
                 inputRef={register({

@@ -15,6 +15,7 @@ export const useGameByIdOrCode = async (gameId) => {
       }
       gameData = { ...gamesDoc.data(), id: gamesDoc.id };
     } catch (err) {
+      console.log(err);
       // use room code instead?
       if (err.message === "Game does not exist") {
         const gamesRef = db.collection("games");
@@ -27,6 +28,7 @@ export const useGameByIdOrCode = async (gameId) => {
       error = err;
     }
   } catch (err) {
+    console.log(err);
     //actual error like 500 boss
     error = err;
   }

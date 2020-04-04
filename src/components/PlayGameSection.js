@@ -7,6 +7,8 @@ import {
   Button,
   Form,
   InputGroup,
+  ListGroup,
+  ListGroupItem,
 } from "react-bootstrap";
 
 export default function PlayGameSection(props) {
@@ -29,13 +31,11 @@ export default function PlayGameSection(props) {
   const getStartingMessage = () => {
     return isHost
       ? `You are the host of the party. Send the link below to all your friends so they can join you.`
-      : "You aren't the host of the party, but you can still invite people";
+      : "You aren't the host of the party, but you can still invite people to play. Send the link below to all your friends.";
   };
   const copyToClipboard = (e) => {
     textAreaRef.current.select();
     document.execCommand("copy");
-    // This is just personal preference.
-    // I prefer to not show the the whole text area selected.
     e.target.focus();
     window.alert("Copied!");
   };
@@ -68,16 +68,26 @@ export default function PlayGameSection(props) {
                   </InputGroup.Append>
                 </Form.Group>
               </Form>
-              <p>
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    setGuideIsOpen(false);
-                  }}
-                >
-                  Let's Play
-                </Button>
-              </p>
+              <h4>Who's all here</h4>
+              <ListGroup>
+                {singleGame.users.map((user) => (
+                  <ListGroupItem>{user.name}</ListGroupItem>
+                ))}
+              </ListGroup>
+
+              {isHost && (
+                <p>
+                  <Button
+                    variant="primary"
+                    style={{ marginTop: "16px" }}
+                    onClick={() => {
+                      setGuideIsOpen(false);
+                    }}
+                  >
+                    Let's Play
+                  </Button>
+                </p>
+              )}
             </Container>
           </Jumbotron>
         </div>
