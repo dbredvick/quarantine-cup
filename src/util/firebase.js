@@ -6,7 +6,7 @@ if (!firebase.apps.length) {
   // Replace with your own Firebase credentials
   firebase.initializeApp({
     apiKey: "AIzaSyBx6-qxURavcQWMkiFnQbTyzqUC0brRk4U",
-    authDomain: "auth.quarantinecup.live",
+    authDomain: "quarantine-cup-44312.firebaseapp.com",
     databaseURL: "https://quarantine-cup-44312.firebaseio.com",
     projectId: "quarantine-cup-44312",
     storageBucket: "quarantine-cup-44312.appspot.com",
