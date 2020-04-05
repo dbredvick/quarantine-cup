@@ -21,7 +21,7 @@ export default requireAuth(async (req, res) => {
   const game = {
     name: `${userData.name}'s game`,
     createdDate: new Date().toISOString(),
-    users: [{ name: userData.name, uid: user.uid, status: "host" }],
+    users: [{ ...user, name: userData.name, uid: user.uid, status: "host" }],
     state: generateDeckOfCards(),
     owner: user.uid,
     roomCode: hri.random(),

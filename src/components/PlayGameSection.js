@@ -1,4 +1,8 @@
 import React, { useState, useRef } from "react";
+import Section from "./Section";
+import SectionHeader from "./SectionHeader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { useSingleGame, useUser } from "../util/db";
 import { useAuth } from "../util/auth";
 import {
@@ -9,7 +13,12 @@ import {
   InputGroup,
   ListGroup,
   ListGroupItem,
+  Col,
+  Row,
 } from "react-bootstrap";
+
+import { suits } from "../util/constants";
+import Card from "./Card";
 
 export default function PlayGameSection(props) {
   const auth = useAuth();
@@ -27,6 +36,7 @@ export default function PlayGameSection(props) {
   }
 
   const isHost = uid === singleGame.owner;
+  console.log(singleGame);
 
   const getStartingMessage = () => {
     return isHost
@@ -58,7 +68,7 @@ export default function PlayGameSection(props) {
                     aria-label="Room link"
                     aria-describedby="basic-addon2"
                     readonly
-                    value={`https://quarantine-cup.now.sh/game?action=join&code=${singleGame.roomCode}`}
+                    value={`${window.location.origin}/game?action=join&code=${singleGame.roomCode}`}
                   />
                   <InputGroup.Append
                     onClick={copyToClipboard}
@@ -71,7 +81,10 @@ export default function PlayGameSection(props) {
               <h4>Who's all here</h4>
               <ListGroup>
                 {singleGame.users.map((user) => (
-                  <ListGroupItem>{user.name}</ListGroupItem>
+                  <ListGroupItem style={{ height: "72px" }} key={user.uid}>
+                    <img src={user.picture} style={{ height: "36px" }} />
+                    <span style={{ marginLeft: "24px" }}>{user.name}</span>
+                  </ListGroupItem>
                 ))}
               </ListGroup>
 
@@ -81,6 +94,7 @@ export default function PlayGameSection(props) {
                     variant="primary"
                     style={{ marginTop: "16px" }}
                     onClick={() => {
+                      // set state of game in update as well
                       setGuideIsOpen(false);
                     }}
                   >
@@ -91,6 +105,54 @@ export default function PlayGameSection(props) {
             </Container>
           </Jumbotron>
         </div>
+      )}
+      {!isOpenGuide && (
+        <>
+          <Section
+            bg={props.bg}
+            textColor={props.textColor}
+            size={props.size}
+            bgImage={props.bgImage}
+            bgImageOpacity={props.bgImageOpacity}
+          >
+            <Container>
+              <SectionHeader
+                title={singleGame.name}
+                subtitle={`${singleGame.users.length} people are playing`}
+                size={2}
+                spaced={true}
+                className="text-center"
+              ></SectionHeader>
+              <Container>
+                <Row>
+                  <Col></Col>
+                  <Col></Col>
+                  <Col>
+                    <Button
+                      variant="primary"
+                      style={{ float: "right" }}
+                      onClick={() => {
+                        // set state of game in update as well
+                        setGuideIsOpen(true);
+                      }}
+                    >
+                      Game Settings <FontAwesomeIcon icon={faCog} />
+                    </Button>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col></Col>
+                  <Col>
+                    {singleGame.state.map((cardData) => (
+                      <Card cardData={cardData}></Card>
+                    ))}
+                  </Col>
+                  <Col></Col>
+                </Row>
+              </Container>
+            </Container>
+          </Section>
+        </>
       )}
     </>
   );

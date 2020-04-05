@@ -1,0 +1,50 @@
+$base-size: 8px;
+$font-stack: Helvetica, sans-serif;
+
+.deck {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.card {
+  display: flex;
+  width: 96px;
+  height: 160px;
+  background-color: #fff;
+  border: 1px solid black;
+  border-radius: $base-size;
+  font-family: $font-stack;
+  margin: 16px;
+  padding: 4px;
+}
+
+.card-black {
+  color: black;
+}
+
+.card-red {
+  color: red;
+}
+
+.card-value {
+  font-size: 24px;
+}
+
+.card-suit {
+  font-size: 16px;
+}
+
+.card-tl {
+  display: flex;
+  flex-grow: 1;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+}
+
+.card-br {
+  display: flex;
+  flex-grow: 1;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  transform: rotate(-180deg);
+}
