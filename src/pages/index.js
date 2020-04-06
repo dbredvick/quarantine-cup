@@ -48,9 +48,8 @@ function IndexPage(props) {
           e.preventDefault();
           const email = event.target.elements.formBasicEmail.value;
           encodeURIComponent;
-          const resp = await apiRequest(
-            `/newsletter?email=${encodeURIComponent(email)}`,
-            "GET"
+          const resp = await fetch(
+            `/newsletter?email=${encodeURIComponent(email)}`
           );
           console.log(resp);
           window.alert(
