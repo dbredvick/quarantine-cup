@@ -49,7 +49,7 @@ function IndexPage(props) {
           const email = event.target.elements.formBasicEmail.value;
           encodeURIComponent;
           const resp = await fetch(
-            `/newsletter?email=${encodeURIComponent(email)}`
+            `/api/newsletter?email=${encodeURIComponent(email)}`
           );
           console.log(resp);
           window.alert(
