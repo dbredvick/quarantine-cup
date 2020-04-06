@@ -15,6 +15,7 @@
     "@zeit/next-sass": "0.2.1-canary.4",
     "analytics": "0.3.0",
     "bootstrap": "4.4.1",
+    "dotenv": "^8.2.0",
     "fake-auth": "0.1.0",
     "firebase": "7.6.2",
     "firebase-admin": "8.9.2",
