@@ -9,26 +9,26 @@ function AuthSection(props) {
   const allTypeValues = {
     signin: {
       // Top title
-      title: "Welcome back",
+      title: "Hello",
       // Submit button text
       buttonText: "Sign in",
       // Link text to other auth types
       linkTextSignup: "Create an account",
-      linkTextForgotpass: "Forgot Password?"
+      linkTextForgotpass: "Forgot Password?",
     },
     signup: {
       title: "Get yourself an account",
       buttonText: "Sign up",
-      linkTextSignin: "Sign in"
+      linkTextSignin: "Sign in",
     },
     forgotpass: {
       title: "Get a new password",
-      buttonText: "Reset password"
+      buttonText: "Reset password",
     },
     changepass: {
       title: "Choose a new password",
-      buttonText: "Change password"
-    }
+      buttonText: "Change password",
+    },
   };
 
   // Ensure we have a valid auth type
@@ -47,7 +47,7 @@ function AuthSection(props) {
     >
       <Container
         style={{
-          maxWidth: "450px"
+          maxWidth: "450px",
         }}
       >
         <SectionHeader

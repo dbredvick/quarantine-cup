@@ -58,7 +58,11 @@ export default function PlayGameSection(props) {
             <Container>
               <h1>{`${singleGame.name}`}</h1>
               <p>{getStartingMessage()}</p>
-              <p>{`Once everyone is here, click 'Let's Play'.`}</p>
+              <p>
+                {host
+                  ? `Once everyone is here, click 'Let's Play'.`
+                  : `Waiting on the host to click play ...`}
+              </p>
               <Form width="50%">
                 <Form.Group controlId="formRoom">
                   <Form.Label>Link</Form.Label>

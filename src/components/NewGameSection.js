@@ -95,7 +95,7 @@ function NewGameSection(props) {
               <FormField
                 name="code"
                 type="text"
-                label="Room Code"
+                label="Room code"
                 defaultValue={code ? code : ""}
                 placeholder="Name"
                 error={errors.name}

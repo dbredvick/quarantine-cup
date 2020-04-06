@@ -46,7 +46,10 @@ export function useSingleGame(uid, gameId) {
   // Query to fetch user
   const query = () => apiRequest(`game-get?uid=${uid}&gameId=${gameId}`);
   // Fetch data with react-query
-  return useQuery(cacheKey, query);
+  return useQuery(cacheKey, query, {
+    // Refetch the data every second
+    refetchInterval: 2000,
+  });
 }
 
 // Update an existing game
