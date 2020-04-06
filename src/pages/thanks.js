@@ -1,5 +1,5 @@
 import React from "react";
-import HeroSection2 from "./../components/HeroSection2";
+import HeroSection2 from "../components/HeroSection2";
 
 function AboutPage(props) {
   return (

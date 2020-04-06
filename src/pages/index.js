@@ -26,7 +26,7 @@ function IndexPage(props) {
         isWorking={isWorking}
         buttonColor="primary"
         secondButtonText="Join game"
-        image="/drinking.svg"
+        image="/playing-cards.svg"
         buttonOnClick={() => {
           // Navigate to pricing page
           if (isWorking) {
