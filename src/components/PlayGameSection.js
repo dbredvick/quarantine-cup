@@ -59,7 +59,7 @@ export default function PlayGameSection(props) {
               <h1>{`${singleGame.name}`}</h1>
               <p>{getStartingMessage()}</p>
               <p>
-                {host
+                {isHost
                   ? `Once everyone is here, click 'Let's Play'.`
                   : `Waiting on the host to click play ...`}
               </p>
