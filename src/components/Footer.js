@@ -12,18 +12,19 @@ function Footer(props) {
       size={props.size}
       bgImage={props.bgImage}
       bgImageOpacity={props.bgImageOpacity}
+      style={{ marginTop: "100px" }}
     >
       <Container>
         <div className="FooterComponent__inner">
           <div className="brand left">
-            <Link href="/">
+            {/* <Link href="/">
               <a>
                 <img src={props.logo} alt="Logo"></img>
               </a>
-            </Link>
+            </Link> */}
           </div>
           <div className="links right">
-            <Link href="/about">
+            {/* <Link href="/about">
               <a>About</a>
             </Link>
 
@@ -33,7 +34,7 @@ function Footer(props) {
 
             <Link href="/contact">
               <a>Contact</a>
-            </Link>
+            </Link> */}
 
             <a target="_blank" href="https://drew.tech">
               Blog

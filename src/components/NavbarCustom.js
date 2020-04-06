@@ -15,12 +15,12 @@ function NavbarCustom(props) {
       <Container>
         <Link href="/" passHref>
           <Navbar.Brand>
-            <img
+            {/* <img
               className="d-inline-block align-top"
               src={props.logo}
               alt="Logo"
               height="30"
-            ></img>
+            ></img> */}
           </Navbar.Brand>
         </Link>
 
@@ -48,7 +48,7 @@ function NavbarCustom(props) {
                 <Link href="/auth/signout" passHref>
                   <NavDropdown.Item
                     active={false}
-                    onClick={e => {
+                    onClick={(e) => {
                       e.preventDefault();
                       auth.signout();
                     }}

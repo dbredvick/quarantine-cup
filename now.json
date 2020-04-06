@@ -1,7 +1,8 @@
 {
   "build": {
     "env": {
-      "PASS": "@firebase-crypt-pass"
+      "PASS": "@firebase-crypt-pass",
+      "CONVERT_KIT_API_KEY": "@convert_kit_api_key"
     }
   }
 }

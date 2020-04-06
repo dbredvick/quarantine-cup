@@ -19,6 +19,7 @@
     "firebase": "7.6.2",
     "firebase-admin": "8.9.2",
     "human-readable-ids": "^1.0.4",
+    "isomorphic-unfetch": "^3.0.0",
     "mailchimp-api-v3": "1.13.1",
     "next": "9.2.2",
     "node-sass": "4.13.0",

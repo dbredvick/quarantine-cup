@@ -5,9 +5,12 @@ import FeaturesSection from "./../components/FeaturesSection";
 import TestimonialsSection from "./../components/TestimonialsSection";
 import NewsletterSection from "./../components/NewsletterSection";
 import { useRouter } from "next/router";
+import { apiRequest } from "../util/util";
 
 function IndexPage(props) {
   const router = useRouter();
+
+  const isWorking = router.query.name === "sam";
 
   return (
     <>
@@ -19,16 +22,19 @@ function IndexPage(props) {
         bgImageOpacity={1}
         title="Quarantine Cup"
         subtitle="King's cup, but remote-first."
-        buttonText="New game"
+        buttonText={isWorking ? "New game" : "Sign up"}
+        isWorking={isWorking}
         buttonColor="primary"
         secondButtonText="Join game"
         image="/drinking.svg"
         buttonOnClick={() => {
           // Navigate to pricing page
-          router.push({
-            pathname: "/game",
-            query: { action: "new" },
-          });
+          if (isWorking) {
+            router.push({
+              pathname: "/game",
+              query: { action: "new" },
+            });
+          }
         }}
         secondButtonOnClick={() => {
           // Navigate to pricing page
@@ -36,6 +42,17 @@ function IndexPage(props) {
             pathname: "/game",
             query: { action: "join" },
           });
+        }}
+        formHandler={async (e) => {
+          // Navigate to pricing page
+          e.preventDefault();
+          const email = event.target.elements.formBasicEmail.value;
+          encodeURIComponent;
+          const resp = await apiRequest(
+            `/newsletter?email=${encodeURIComponent(email)}`,
+            "GET"
+          );
+          console.log(resp);
         }}
       ></HeroSection>
       {/* <ClientsSection
@@ -47,15 +64,17 @@ function IndexPage(props) {
         title=""
         subtitle=""
       ></ClientsSection> */}
-      <FeaturesSection
-        bg="white"
-        textColor="dark"
-        size="md"
-        bgImage=""
-        bgImageOpacity={1}
-        title="The Rules"
-        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
-      ></FeaturesSection>
+      {isWorking && (
+        <FeaturesSection
+          bg="white"
+          textColor="dark"
+          size="md"
+          bgImage=""
+          bgImageOpacity={1}
+          title="The Game"
+          subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
+        ></FeaturesSection>
+      )}
       {/* <TestimonialsSection
         bg="light"
         textColor="dark"
