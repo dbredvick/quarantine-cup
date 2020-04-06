@@ -1,4 +1,5 @@
 import fetch from "isomorphic-unfetch";
+import config from "../../util/config";
 
 export default async function submitEmail(req, res) {
   const formId = "1301936";
@@ -7,7 +8,7 @@ export default async function submitEmail(req, res) {
     const email = req.query.email;
     console.log(email);
     const data = {
-      api_key: process.env.CONVERT_KIT_API_KEY,
+      api_key: config.CONVERT_KIT_API_KEY,
       email: email,
       tags: ["quarantinecup", "homepage"],
     };
