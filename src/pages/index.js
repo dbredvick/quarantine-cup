@@ -53,6 +53,9 @@ function IndexPage(props) {
             "GET"
           );
           console.log(resp);
+          window.alert(
+            `We sent a confirmation email to ${email}. Thanks for signing up!`
+          );
         }}
       ></HeroSection>
       {/* <ClientsSection
