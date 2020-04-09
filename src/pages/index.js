@@ -4,6 +4,7 @@ import ClientsSection from "./../components/ClientsSection";
 import FeaturesSection from "./../components/FeaturesSection";
 import TestimonialsSection from "./../components/TestimonialsSection";
 import NewsletterSection from "./../components/NewsletterSection";
+import CardSection from "./../components/CardSection";
 import { useRouter } from "next/router";
 import { apiRequest } from "../util/util";
 
@@ -24,7 +25,7 @@ function IndexPage(props) {
         subtitle="King's cup, but remote-first."
         buttonText={isWorking ? "New game" : "Sign up"}
         isWorking={isWorking}
-        buttonColor="primary"
+        buttonColor="red"
         secondButtonText="Join game"
         image="/playing-cards.svg"
         buttonOnClick={() => {
@@ -57,6 +58,7 @@ function IndexPage(props) {
           );
         }}
       ></HeroSection>
+      {/* <CardSection></CardSection> */}
       {/* <ClientsSection
         bg="light"
         textColor="dark"

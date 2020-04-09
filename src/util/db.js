@@ -48,7 +48,7 @@ export function useSingleGame(uid, gameId) {
   // Fetch data with react-query
   return useQuery(cacheKey, query, {
     // Refetch the data every second
-    refetchInterval: 2000,
+    refetchInterval: 10000,
   });
 }
 

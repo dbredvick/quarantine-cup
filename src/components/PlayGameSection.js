@@ -17,6 +17,7 @@ import {
   Row,
 } from "react-bootstrap";
 
+import "./Cards.scss";
 import { suits } from "../util/constants";
 import Card from "./Card";
 
@@ -140,18 +141,18 @@ export default function PlayGameSection(props) {
                         setGuideIsOpen(true);
                       }}
                     >
-                      Game Settings <FontAwesomeIcon icon={faCog} />
+                      Game <FontAwesomeIcon icon={faCog} />
                     </Button>
                   </Col>
                 </Row>
                 <Row>
-                  <Col></Col>
                   <Col>
-                    {singleGame.state.map((cardData) => (
-                      <Card cardData={cardData}></Card>
-                    ))}
+                    <div className="circle-container">
+                      {singleGame.state.slice(0, 6).map((cardData) => (
+                        <Card cardData={cardData}></Card>
+                      ))}
+                    </div>
                   </Col>
-                  <Col></Col>
                 </Row>
               </Container>
             </Container>

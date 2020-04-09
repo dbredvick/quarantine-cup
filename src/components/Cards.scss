@@ -1,21 +1,69 @@
 $base-size: 8px;
 $font-stack: Helvetica, sans-serif;
 
+/// Mixin to place items on a circle
+/// @author Hugo Giraudel
+/// @author Ana Tudor
+/// @param {Integer} $item-count - Number of items on the circle
+/// @param {Length} $circle-size - Large circle size
+/// @param {Length} $item-size - Single item size
+@mixin on-circle($item-count, $circle-size, $item-size) {
+  position: relative;
+  width: $circle-size;
+  height: $circle-size;
+  padding: 0;
+  border-radius: 50%;
+  list-style: none;
+
+  > * {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: $item-size;
+    height: $item-size;
+    margin: -($item-size / 2);
+
+    $angle: (360 / $item-count);
+    $rot: 30;
+
+    @for $i from 1 through $item-count {
+      &:nth-of-type(#{$i}) {
+        transform: rotate($rot * 1deg)
+          translate($circle-size / 2)
+          rotate($rot * -1deg)
+          rotate(($i * 60deg)+ 60deg);
+      }
+
+      $rot: $rot + $angle;
+    }
+  }
+}
+
+.circle-container {
+  @include on-circle($item-count: 6, $circle-size: 18em, $item-size: 130px);
+  margin: 5em auto 0;
+}
+
 .deck {
   display: flex;
   flex-flow: row wrap;
 }
 
+.card-hand {
+  display: inline-flex;
+}
+
 .card {
-  display: flex;
-  width: 96px;
-  height: 160px;
+  filter: drop-shadow(5px 10px 4px #3e3e3e);
+  width: 72px;
+  height: 120px;
   background-color: #fff;
   border: 1px solid black;
   border-radius: $base-size;
   font-family: $font-stack;
-  margin: 16px;
-  padding: 4px;
+  margin: 12px;
+  padding: 3px;
 }
 
 .card-black {
@@ -27,11 +75,23 @@ $font-stack: Helvetica, sans-serif;
 }
 
 .card-value {
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .card-suit {
-  font-size: 16px;
+  font-size: 12px;
+}
+
+.card-flipped {
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background: rgb(160, 5, 5);
+  background: radial-gradient(
+    circle,
+    rgba(160, 5, 5, 1) 7%,
+    rgba(47, 47, 65, 1) 100%
+  );
 }
 
 .card-tl {
@@ -47,4 +107,48 @@ $font-stack: Helvetica, sans-serif;
   flex-flow: column nowrap;
   justify-content: flex-start;
   transform: rotate(-180deg);
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
+
+.Aligner-item {
+  max-width: 50%;
+  color: white;
+  font-size: 28px;
+}
+
+.card-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.c {
+  position: absolute;
+  max-width: 90px;
+  max-height: 150px;
+  width: 48ch;
+  height: 80ch;
+  cursor: pointer;
+  will-change: transform, opacity;
+}
+
+.front,
+.back {
+  background-size: cover;
+}
+
+.back {
+  background-image: url(https://images.unsplash.com/photo-1544511916-0148ccdeb877?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1901&q=80i&auto=format&fit=crop);
+}
+
+.front {
+  background-image: url(https://images.unsplash.com/photo-1540206395-68808572332f?ixlib=rb-1.2.1&w=1181&q=80&auto=format&fit=crop);
 }

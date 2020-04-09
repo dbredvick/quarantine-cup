@@ -6,6 +6,7 @@ import App from "next/app";
 import "./../util/analytics.js";
 import { ProvideAuth } from "./../util/auth.js";
 import Head from "next/head";
+import "../components/Global.scss";
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for

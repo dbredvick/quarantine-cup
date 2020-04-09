@@ -9,7 +9,7 @@ export const generateDeckOfCards = () => {
       deck.push({ suit, value, available: true, played: 0 });
     });
   });
-  return deck;
+  return shuffle(deck);
 };
 
 export const suits = [
@@ -21,3 +21,11 @@ export const suits = [
 
 export const symbolFromName = (name) =>
   suits.find((x) => x.name === name).symbol;
+
+export const shuffle = (a) => {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
