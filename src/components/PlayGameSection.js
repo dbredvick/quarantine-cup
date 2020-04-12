@@ -67,6 +67,9 @@ export default function PlayGameSection(props) {
           url: `${window.location.origin}/game?action=join&code=${
             isLoading ? "" : singleGame.roomCode
           }`,
+          text: `${window.location.origin}/game?action=join&code=${
+            isLoading ? "" : singleGame.roomCode
+          }`,
         })
         .then(() => {
           console.log("Thanks for sharing!");
