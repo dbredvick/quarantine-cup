@@ -58,10 +58,22 @@ export default function PlayGameSection(props) {
       : "You aren't the host of the party, but you can still invite people to play. Send the link below to all your friends.";
   };
   const copyToClipboard = (e) => {
-    textAreaRef.current.select();
-    document.execCommand("copy");
-    e.target.focus();
-    window.alert("Copied!");
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "Quarantine Cup Invite",
+          url: textAreaRef.current.select(),
+        })
+        .then(() => {
+          console.log("Thanks for sharing!");
+        })
+        .catch(console.error);
+    } else {
+      textAreaRef.current.select();
+      document.execCommand("copy");
+      e.target.focus();
+      window.alert("Copied!");
+    }
   };
 
   const onCardClick = (cardData) => {
