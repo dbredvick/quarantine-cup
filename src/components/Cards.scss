@@ -54,6 +54,18 @@ $font-stack: Helvetica, sans-serif;
   display: inline-flex;
 }
 
+.small-card {
+  filter: drop-shadow(2px 3px 2px #3e3e3e);
+  width: 36px;
+  height: 60px;
+  background-color: #fff;
+  border: 1px solid black;
+  border-radius: 4px;
+  font-family: $font-stack;
+  margin: 6px;
+  padding: 1.5px;
+}
+
 .card {
   filter: drop-shadow(5px 9px 4px #3e3e3e);
   width: 72px;
@@ -80,6 +92,14 @@ $font-stack: Helvetica, sans-serif;
 
 .card-suit {
   font-size: 12px;
+}
+
+.small-card-value {
+  font-size: 12px;
+}
+
+.small-card-suit {
+  font-size: 8px;
 }
 
 .card-flipped {
@@ -128,6 +148,14 @@ $font-stack: Helvetica, sans-serif;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+}
+
+.card-hand {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: scroll;
 }
 
 .c {

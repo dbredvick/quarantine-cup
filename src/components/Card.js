@@ -16,10 +16,19 @@ export default function Card(props) {
   const isBlack = suit === "spades" || suit === "clubs" ? true : false;
 
   return (
-    <div className="card-container" onClick={() => setIsFlipped(!isFlipped)}>
+    <div
+      className="card-container"
+      onClick={() => {
+        setIsFlipped(true);
+        props.cardClickHandler(props.cardData);
+      }}
+    >
       <a.div
         className="c"
-        style={{ opacity: opacity.interpolate((o) => 1 - o), transform }}
+        style={{
+          opacity: opacity.interpolate((o) => 1 - o),
+          transform,
+        }}
       >
         <div className="card card-flipped">
           <div class="Aligner-item Aligner-item--top"></div>

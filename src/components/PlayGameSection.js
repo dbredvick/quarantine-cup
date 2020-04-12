@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { useSingleGame, useUser } from "../util/db";
 import { useAuth } from "../util/auth";
+import Head from "next/head";
 import {
   Jumbotron,
   Container,
@@ -24,6 +25,7 @@ import { isHost, currentUser } from "../util/game-utils";
 import "./Cards.scss";
 import { suits } from "../util/constants";
 import Card from "./Card";
+import SmallCard from "./SmallCard";
 
 export default function PlayGameSection(props) {
   const auth = useAuth();
@@ -61,10 +63,24 @@ export default function PlayGameSection(props) {
 
     if (isItUsersTurn) {
       // send move to server to validate
+      console.log("here we are", cardData);
     }
   };
   return (
     <>
+      <Head>
+        <script
+          data-name="BMC-Widget"
+          src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+          data-id="drewbredvick"
+          data-description="Support my server costs & beer fund."
+          data-message="Thanks for playing. Buy me a beer if you liked the game!"
+          data-color="#FF5F5F"
+          data-position="right"
+          data-x_margin="18"
+          data-y_margin="18"
+        ></script>
+      </Head>
       {isOpenGuideFirstTime && isGuideOpen && (
         <div id="guide">
           <Jumbotron fluid>
@@ -133,96 +149,118 @@ export default function PlayGameSection(props) {
       )}
       {(!isGuideOpen || !isOpenGuideFirstTime) && (
         <>
-          <Section
+          {/* <Section
             bg={props.bg}
             textColor={props.textColor}
-            size={props.size}
+            size={"md"}
             bgImage={props.bgImage}
             bgImageOpacity={props.bgImageOpacity}
-          >
+          > */}
+          <Container>
+            <SectionHeader
+              title={isLoading ? "" : singleGame.name}
+              size={2}
+              spaced={true}
+            ></SectionHeader>
             <Container>
-              <SectionHeader
-                title={isLoading ? "" : singleGame.name}
-                subtitle={`${
-                  isLoading ? "0" : singleGame.users.length
-                } people are playing`}
-                size={2}
-                spaced={true}
-                className="text-center"
-              ></SectionHeader>
-              <Container>
-                <Row>
-                  <Col></Col>
-                  <Col>
-                    <h2>{`It's ${curUser.name}'s turn`}</h2>
-                  </Col>
-                  <Col>
-                    <Button
-                      variant="primary"
-                      style={{ float: "right" }}
-                      onClick={() => {
-                        // set state of game in update as well
-                        setGuideIsOpen(true);
-                      }}
-                    >
-                      Game <FontAwesomeIcon icon={faCog} />
-                    </Button>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <div className="circle-container">
-                      {isLoading
-                        ? ""
-                        : singleGame.state
-                            .filter((x) => x.available)
-                            .slice(0, 6)
-                            .map((cardData) => (
-                              <Card
-                                cardClickHandler={onCardClick}
-                                cardData={cardData}
-                              ></Card>
-                            ))}
-                    </div>
-                  </Col>
-                </Row>
-                <Row style={{ marginTop: "100px" }}>
-                  <Col>
-                    <ListGroup>
-                      {isLoading
-                        ? ""
-                        : singleGame.users.map((user) => (
-                            <ListGroupItem
-                              style={{ height: "72px" }}
-                              key={user.uid}
-                              variant={user.isMyTurn ? "dark" : ""}
-                            >
-                              <Image
-                                src={user.picture}
-                                roundedCircle
-                                style={{ height: "48px" }}
-                              />
-                              <span
-                                style={{ marginLeft: "24px", fontSize: "24px" }}
-                              >
-                                {user.name}
-                              </span>
-                              {user.isMyTurn && (
-                                <Badge
-                                  style={{ marginLeft: "18px" }}
-                                  variant="secondary"
-                                >
-                                  It's your turn!
-                                </Badge>
-                              )}
-                            </ListGroupItem>
+              <Row>
+                <Col>
+                  <h4>{`${curUser.name}'s turn`}</h4>
+                </Col>
+                <Col>
+                  <Button
+                    variant="red"
+                    style={{ float: "right" }}
+                    onClick={() => {
+                      // set state of game in update as well
+                      setGuideIsOpen(true);
+                    }}
+                  >
+                    Game <FontAwesomeIcon icon={faCog} />
+                  </Button>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <div className="circle-container">
+                    {isLoading
+                      ? ""
+                      : singleGame.state
+                          .filter((x) => x.available)
+                          .slice(0, 6)
+                          .map((cardData) => (
+                            <Card
+                              key={`${cardData.value}-${cardData.suit}`}
+                              cardClickHandler={onCardClick}
+                              cardData={cardData}
+                            ></Card>
                           ))}
-                    </ListGroup>
-                  </Col>
-                </Row>
-              </Container>
+                  </div>
+                </Col>
+              </Row>
+              <Row style={{ marginTop: "100px" }}>
+                <Col>
+                  <ListGroup>
+                    {isLoading
+                      ? ""
+                      : singleGame.users.map((user) => (
+                          <ListGroupItem
+                            style={{ height: "auto" }}
+                            key={user.uid}
+                            variant={user.isMyTurn ? "dark" : ""}
+                          >
+                            <Image
+                              src={user.picture}
+                              roundedCircle
+                              style={{ height: "48px" }}
+                            />
+                            <span
+                              style={{ marginLeft: "24px", fontSize: "24px" }}
+                            >
+                              {user.name}
+                            </span>
+                            {user.isMyTurn && (
+                              <Badge
+                                style={{ marginLeft: "18px" }}
+                                variant="secondary"
+                              >
+                                It's your turn!
+                              </Badge>
+                            )}
+                            <div className="card-hand">
+                              {isLoading
+                                ? ""
+                                : singleGame.state
+                                    .filter((x) => x.available)
+                                    .slice(0, 6)
+                                    .map((cardData) => (
+                                      <SmallCard
+                                        key={`sm-${cardData.value}-${cardData.suit}`}
+                                        cardClickHandler={onCardClick}
+                                        cardData={cardData}
+                                      ></SmallCard>
+                                    ))}
+                              {isLoading
+                                ? ""
+                                : singleGame.state
+                                    .filter((x) => x.available)
+                                    .slice(0, 6)
+                                    .map((cardData) => (
+                                      <SmallCard
+                                        key={`sm-${cardData.value}-${cardData.suit}`}
+                                        cardClickHandler={onCardClick}
+                                        cardData={cardData}
+                                      ></SmallCard>
+                                    ))}
+                            </div>
+                          </ListGroupItem>
+                        ))}
+                  </ListGroup>
+                </Col>
+              </Row>
             </Container>
-          </Section>
+          </Container>
+          {/* </Section> */}
         </>
       )}
     </>
