@@ -61,7 +61,6 @@ export default function PlayGameSection(props) {
     if (navigator.share) {
       navigator
         .share({
-          title: `Join me for a game of Quarantine Cup online: ${textAreaRef.current.select()}`,
           url: textAreaRef.current.select(),
         })
         .then(() => {
@@ -127,7 +126,7 @@ export default function PlayGameSection(props) {
                     style={{ marginTop: "14px", marginBottom: "14px" }}
                   >
                     <Button variant="outline-secondary">
-                      {navigator.share ? "Share" : "Copy"}
+                      {navigator.share ? "Invite" : "Copy"}
                     </Button>
                   </InputGroup.Append>
                 </Form.Group>
