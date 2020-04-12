@@ -80,6 +80,7 @@ function NewGameSection(props) {
               label="Your name"
               defaultValue=""
               placeholder="Name"
+              maxLength="16"
               error={errors.name}
               inputRef={register({
                 required: "Please enter your name",

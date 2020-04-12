@@ -6,7 +6,8 @@ import { useSpring, animated as a } from "react-spring";
 export default function Card(props) {
   const value = props.cardData.value;
   const suit = props.cardData.suit;
-  const [isFlipped, setIsFlipped] = useState(false);
+  const flipped = props.flipped;
+  const [isFlipped, setIsFlipped] = useState(flipped);
   const { transform, opacity } = useSpring({
     opacity: isFlipped ? 1 : 0,
     transform: `perspective(600px) rotateX(${isFlipped ? 180 : 0}deg)`,
@@ -17,7 +18,7 @@ export default function Card(props) {
 
   return (
     <div
-      className="card-container"
+      className={flipped ? "single-card-container" : "card-container"}
       onClick={() => {
         setIsFlipped(true);
         props.cardClickHandler(props.cardData);

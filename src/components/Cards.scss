@@ -150,6 +150,13 @@ $font-stack: Helvetica, sans-serif;
   overflow: hidden;
 }
 
+.single-card-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
 .card-hand {
   display: flex;
   flex-direction: row;
