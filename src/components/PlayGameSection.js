@@ -126,7 +126,9 @@ export default function PlayGameSection(props) {
                     onClick={copyToClipboard}
                     style={{ marginTop: "14px", marginBottom: "14px" }}
                   >
-                    <Button variant="outline-secondary">Copy</Button>
+                    <Button variant="outline-secondary">
+                      {navigator.share ? "Share" : "Copy"}
+                    </Button>
                   </InputGroup.Append>
                 </Form.Group>
               </Form>
