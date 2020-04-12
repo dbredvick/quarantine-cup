@@ -61,7 +61,7 @@ export default function PlayGameSection(props) {
     if (navigator.share) {
       navigator
         .share({
-          title: "Quarantine Cup Invite",
+          title: `Join me for a game of Quarantine Cup online: ${textAreaRef.current.select()}`,
           url: textAreaRef.current.select(),
         })
         .then(() => {
