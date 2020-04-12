@@ -61,8 +61,12 @@ export default function PlayGameSection(props) {
     if (navigator.share) {
       navigator
         .share({
-          title: textAreaRef.current.select(),
-          url: textAreaRef.current.select(),
+          title: `${window.location.origin}/game?action=join&code=${
+            isLoading ? "" : singleGame.roomCode
+          }`,
+          url: `${window.location.origin}/game?action=join&code=${
+            isLoading ? "" : singleGame.roomCode
+          }`,
         })
         .then(() => {
           console.log("Thanks for sharing!");
