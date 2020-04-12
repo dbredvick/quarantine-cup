@@ -16,20 +16,20 @@ function ReauthModal(props) {
 
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     const { pass } = data;
     setPending(true);
 
     auth
       .signin(auth.user.email, pass)
       .then(() => props.onComplete())
-      .catch(error => {
+      .catch((error) => {
         // Hide pending indicator
         setPending(false);
         // Show error alert message
         setFormAlert({
           type: "error",
-          message: error.message
+          message: error.message,
         });
       });
   };
@@ -57,16 +57,11 @@ function ReauthModal(props) {
                 placeholder="Password"
                 error={errors.pass}
                 inputRef={register({
-                  required: "Please enter your password"
+                  required: "Please enter your password",
                 })}
               ></FormField>
             </Form.Group>
-            <Button
-              variant="primary"
-              block={true}
-              type="submit"
-              disabled={pending}
-            >
+            <Button variant="red" block={true} type="submit" disabled={pending}>
               <span>Submit</span>
 
               {pending && (
@@ -91,10 +86,10 @@ function ReauthModal(props) {
             providers={[props.provider]}
             showLastUsed={false}
             onAuth={props.onComplete}
-            onError={message => {
+            onError={(message) => {
               setFormAlert({
                 type: "error",
-                message: message
+                message: message,
               });
             }}
           ></AuthSocial>

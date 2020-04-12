@@ -50,12 +50,6 @@ function NewGameSection(props) {
     router.push(`/play/${game.id}`);
   };
 
-  // Show loading indicator until
-  // database query completes.
-  if (status === "loading" || gameStatus === "loading") {
-    return "Loading ...";
-  }
-
   return (
     <Section
       bg={props.bg}
@@ -105,7 +99,7 @@ function NewGameSection(props) {
               ></FormField>
             )}
           </Form.Group>
-          <Button type="submit" disabled={pending}>
+          <Button variant="red" type="submit" disabled={pending}>
             <span>Let's play</span>
 
             {pending && (

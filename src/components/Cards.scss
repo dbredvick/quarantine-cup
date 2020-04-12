@@ -41,7 +41,7 @@ $font-stack: Helvetica, sans-serif;
 }
 
 .circle-container {
-  @include on-circle($item-count: 6, $circle-size: 18em, $item-size: 130px);
+  @include on-circle($item-count: 6, $circle-size: 18em, $item-size: 170px);
   margin: 5em auto 0;
 }
 
@@ -55,7 +55,7 @@ $font-stack: Helvetica, sans-serif;
 }
 
 .card {
-  filter: drop-shadow(5px 10px 4px #3e3e3e);
+  filter: drop-shadow(5px 9px 4px #3e3e3e);
   width: 72px;
   height: 120px;
   background-color: #fff;

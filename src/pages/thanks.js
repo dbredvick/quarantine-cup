@@ -1,7 +1,7 @@
 import React from "react";
 import HeroSection2 from "../components/HeroSection2";
 
-function AboutPage(props) {
+function ThanksPage(props) {
   return (
     <>
       <HeroSection2
@@ -17,4 +17,6 @@ function AboutPage(props) {
   );
 }
 
-export default AboutPage;
+export const getStaticProps = () => {};
+
+export default ThanksPage;

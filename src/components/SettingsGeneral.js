@@ -19,7 +19,7 @@ function SettingsGeneral(props) {
 
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     // Show pending indicator
     setPending(true);
 
@@ -29,13 +29,13 @@ function SettingsGeneral(props) {
         // Show success alert message
         setFormAlert({
           type: "success",
-          message: "Your profile has been updated"
+          message: "Your profile has been updated",
         });
 
         // Update user in database
         return updateUser(user.uid, data);
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.code === "auth/requires-recent-login") {
           // Remove existing alert message
           setFormAlert(null);
@@ -49,7 +49,7 @@ function SettingsGeneral(props) {
           // Show error alert message
           setFormAlert({
             type: "error",
-            message: error.message
+            message: error.message,
           });
         }
       })
@@ -84,7 +84,7 @@ function SettingsGeneral(props) {
             placeholder="Name"
             error={errors.name}
             inputRef={register({
-              required: "Please enter your name"
+              required: "Please enter your name",
             })}
           ></FormField>
         </Form.Group>
@@ -97,11 +97,11 @@ function SettingsGeneral(props) {
             placeholder="Email"
             error={errors.email}
             inputRef={register({
-              required: "Please enter your email"
+              required: "Please enter your email",
             })}
           ></FormField>
         </Form.Group>
-        <Button type="submit" disabled={pending}>
+        <Button variant="red" type="submit" disabled={pending}>
           <span>Save</span>
 
           {pending && (

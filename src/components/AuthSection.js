@@ -9,7 +9,7 @@ function AuthSection(props) {
   const allTypeValues = {
     signin: {
       // Top title
-      title: "Hello",
+      title: "Welcome!",
       // Submit button text
       buttonText: "Sign in",
       // Link text to other auth types

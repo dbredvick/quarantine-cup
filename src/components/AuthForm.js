@@ -14,13 +14,13 @@ function AuthForm(props) {
 
   const submitHandlersByType = {
     signin: ({ email, pass }) => {
-      return auth.signin(email, pass).then(user => {
+      return auth.signin(email, pass).then((user) => {
         // Call auth complete handler
         props.onAuth(user);
       });
     },
     signup: ({ email, pass }) => {
-      return auth.signup(email, pass).then(user => {
+      return auth.signup(email, pass).then((user) => {
         // Call auth complete handler
         props.onAuth(user);
       });
@@ -30,7 +30,7 @@ function AuthForm(props) {
         // Show success alert message
         props.onFormAlert({
           type: "success",
-          message: "Password reset email sent"
+          message: "Password reset email sent",
         });
       });
     },
@@ -39,10 +39,10 @@ function AuthForm(props) {
         // Show success alert message
         props.onFormAlert({
           type: "success",
-          message: "Your password has been changed"
+          message: "Your password has been changed",
         });
       });
-    }
+    },
   };
 
   // Handle form submission
@@ -53,13 +53,13 @@ function AuthForm(props) {
     // Call submit handler for auth type
     submitHandlersByType[props.type]({
       email,
-      pass
+      pass,
     })
-      .catch(error => {
+      .catch((error) => {
         // Show error alert message
         props.onFormAlert({
           type: "error",
-          message: error.message
+          message: error.message,
         });
       })
       .finally(() => {
@@ -79,7 +79,7 @@ function AuthForm(props) {
             placeholder="Email"
             error={errors.email}
             inputRef={register({
-              required: "Please enter an email"
+              required: "Please enter an email",
             })}
           ></FormField>
         </Form.Group>
@@ -94,7 +94,7 @@ function AuthForm(props) {
             placeholder="Password"
             error={errors.pass}
             inputRef={register({
-              required: "Please enter a password"
+              required: "Please enter a password",
             })}
           ></FormField>
         </Form.Group>
@@ -110,20 +110,20 @@ function AuthForm(props) {
             error={errors.confirmPass}
             inputRef={register({
               required: "Please enter your password again",
-              validate: value => {
+              validate: (value) => {
                 if (value === getValues().pass) {
                   return true;
                 } else {
                   return "This doesn't match your password";
                 }
-              }
+              },
             })}
           ></FormField>
         </Form.Group>
       )}
 
       <Button
-        variant="primary"
+        variant="red"
         block={true}
         size={props.inputSize}
         type="submit"

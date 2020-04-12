@@ -36,12 +36,12 @@ export default function Card(props) {
       >
         <div className={isBlack ? "card card-black" : "card card-red"}>
           <div className="card-tl">
-            <div className="card-value">{value}</div>
-            <div className="card-suit">{symbolFromName(suit)}</div>
+            <div className="card-value">{value ? value : ""}</div>
+            <div className="card-suit">{suit ? symbolFromName(suit) : ""}</div>
           </div>
           <div className="card-br">
-            <div className="card-value">{value}</div>
-            <div className="card-suit">{symbolFromName(suit)}</div>
+            <div className="card-value">{value ? value : ""}</div>
+            <div className="card-suit">{suit ? symbolFromName(suit) : ""}</div>
           </div>
         </div>
       </a.div>

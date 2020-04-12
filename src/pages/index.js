@@ -97,7 +97,7 @@ function IndexPage(props) {
         title="Stay in the know"
         subtitle="Receive our latest articles and feature updates"
         buttonText="Subscribe"
-        buttonColor="primary"
+        buttonColor="red"
         inputPlaceholder="Enter your email"
         subscribedMessage="You are now subscribed!"
       ></NewsletterSection> */}
@@ -106,7 +106,7 @@ function IndexPage(props) {
 }
 
 // Disable static prerendering
-IndexPage.getInitialProps = async () => {
+export const getStaticProps = async () => {
   return {};
 };
 

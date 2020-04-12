@@ -18,10 +18,22 @@ export default requireAuth(async (req, res) => {
   // For testing, we'll return a user object containing our body data.
   const userData = body;
 
+  const picture = user.picture
+    ? user.picture
+    : `https://api.adorable.io/avatars/285/${user.email}`;
+
   const game = {
     name: `${userData.name}'s game`,
     createdDate: new Date().toISOString(),
-    users: [{ ...user, name: userData.name, uid: user.uid, status: "host" }],
+    users: [
+      {
+        picture,
+        ...user,
+        name: userData.name,
+        status: "host",
+        isMyTurn: true,
+      },
+    ],
     state: generateDeckOfCards(),
     owner: user.uid,
     roomCode: hri.random(),

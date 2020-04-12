@@ -25,7 +25,7 @@ function Pricing(props) {
               </h1>
               <Card.Text className="mb-4">{item.description}</Card.Text>
               <Button
-                variant="primary"
+                variant="red"
                 size="lg"
                 block={true}
                 onClick={() => props.onChoosePlan(item.id)}

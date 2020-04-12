@@ -33,7 +33,7 @@ function DashboardPage(props) {
 }
 
 // Disable static prerendering
-DashboardPage.getInitialProps = async () => {
+export const getStaticProps = async () => {
   return {};
 };
 

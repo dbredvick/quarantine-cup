@@ -12,11 +12,13 @@ function ContactPage(props) {
       title="Contact Us"
       subtitle=""
       buttonText="Send message"
-      buttonColor="primary"
+      buttonColor="red"
       showNameField={true}
       inputSize="md"
     ></ContactSection>
   );
 }
+
+export const getStaticProps = () => {};
 
 export default ContactPage;
