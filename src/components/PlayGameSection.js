@@ -61,6 +61,7 @@ export default function PlayGameSection(props) {
     if (navigator.share) {
       navigator
         .share({
+          title: textAreaRef.current.select(),
           url: textAreaRef.current.select(),
         })
         .then(() => {
