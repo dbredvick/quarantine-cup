@@ -206,6 +206,7 @@ export default function PlayGameSection(props) {
                     style={{ float: "right" }}
                     onClick={() => {
                       // set state of game in update as well
+                      // test
                       setGuideIsOpen(true);
                     }}
                   >
