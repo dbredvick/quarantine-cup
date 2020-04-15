@@ -194,7 +194,7 @@ export default function PlayGameSection(props) {
             <Row>
               <Col>
                 <Image
-                  src={curUser.picture}
+                  src={!isLoading ? curUser.picture : ""}
                   roundedCircle
                   style={{ height: "48px", display: "inline-block" }}
                 />
