@@ -231,12 +231,9 @@ export default function PlayGameSection(props) {
                   </div>
                 </Col>
               </Row>
-              <Row style={{ marginTop: "100px" }}>
-                <Col style={{ marginTop: "-180px" }}>
-                  <div
-                    className="d-lg-none"
-                    style={{ marginTop: "180px" }}
-                  ></div>
+              <Row style={{ marginTop: "100px" }}></Row>
+              <Row style={{ marginTop: "auto" }}>
+                <Col sm={2} style={{ marginTop: "0" }}>
                   <h4>Last card</h4>
                   <div style={{ height: "180px" }}>
                     {singleGame.lastPlayed && singleGame.lastPlayed.value ? (
@@ -251,9 +248,7 @@ export default function PlayGameSection(props) {
                     )}
                   </div>
                 </Col>
-              </Row>
-              <Row style={{ marginTop: "auto" }}>
-                <Col>
+                <Col sm={10}>
                   <ListGroup>
                     {isLoading
                       ? ""
