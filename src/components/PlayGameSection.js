@@ -189,111 +189,126 @@ export default function PlayGameSection(props) {
             bgImage={props.bgImage}
             bgImageOpacity={props.bgImageOpacity}
           > */}
+
           <Container>
-            <SectionHeader
-              title={isLoading ? "" : singleGame.name}
-              size={2}
-              spaced={true}
-            ></SectionHeader>
-            <Container>
-              <Row>
-                <Col>
-                  <h4>{`${curUser && curUser.name}'s turn`}</h4>
-                </Col>
-                <Col>
-                  <Button
-                    variant="red"
-                    style={{ float: "right" }}
-                    onClick={() => {
-                      // set state of game in update as well
-                      // test
-                      setGuideIsOpen(true);
-                    }}
-                  >
-                    Game <FontAwesomeIcon icon={faCog} />
-                  </Button>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <div className="circle-container">
-                    {isLoading
-                      ? ""
-                      : singleGame.state
-                          .filter((x) => x.available)
-                          .slice(0, 6)
-                          .map((cardData) => (
-                            <Card
-                              key={`${cardData.value}-${cardData.suit}`}
-                              cardClickHandler={onCardClick}
-                              cardData={cardData}
-                            ></Card>
-                          ))}
-                  </div>
-                </Col>
-              </Row>
-              <Row style={{ marginTop: "100px" }}></Row>
-              <Row style={{ marginTop: "auto" }}>
-                <Col sm={2} style={{ marginTop: "0" }}>
-                  <h4>Last card</h4>
-                  <div style={{ height: "180px" }}>
-                    {singleGame.lastPlayed && singleGame.lastPlayed.value ? (
-                      <Card
-                        key={`${singleGame.lastPlayed.value}-${singleGame.lastPlayed.suit}`}
-                        cardClickHandler={onCardClick}
-                        cardData={singleGame.lastPlayed}
-                        flipped={true}
-                      ></Card>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </Col>
-                <Col sm={10}>
-                  <ListGroup>
-                    {isLoading
-                      ? ""
-                      : singleGame.users.map((user) => (
-                          <ListGroupItem
-                            style={{ height: "auto" }}
-                            key={user.uid}
-                            variant={user.isMyTurn ? "dark" : ""}
-                          >
-                            <Image
-                              src={user.picture}
-                              roundedCircle
-                              style={{ height: "48px" }}
-                            />
-                            <span
-                              style={{ marginLeft: "24px", fontSize: "24px" }}
-                            >
-                              {user.name}
-                            </span>
-                            {user.isMyTurn && (
-                              <Badge
-                                style={{ marginLeft: "18px" }}
-                                variant="secondary"
-                              >
-                                It's your turn!
-                              </Badge>
-                            )}
-                            <div className="card-hand">
-                              {isLoading && user && user.cards.length > 0
-                                ? ""
-                                : user.cards.map((cardData) => (
-                                    <SmallCard
-                                      key={`sm-${cardData.value}-${cardData.suit}`}
-                                      cardClickHandler={onCardClick}
-                                      cardData={cardData}
-                                    ></SmallCard>
-                                  ))}
-                            </div>
-                          </ListGroupItem>
+            <Row>
+              <Col>
+                <Image
+                  src={curUser.picture}
+                  roundedCircle
+                  style={{ height: "48px", display: "inline-block" }}
+                />
+                <h5 style={{ display: "inline-block", marginLeft: "12px" }}>{`${
+                  curUser && curUser.name
+                }'s turn`}</h5>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <div className="circle-container">
+                  {isLoading
+                    ? ""
+                    : singleGame.state
+                        .filter((x) => x.available)
+                        .slice(0, 6)
+                        .map((cardData) => (
+                          <Card
+                            key={`${cardData.value}-${cardData.suit}`}
+                            cardClickHandler={onCardClick}
+                            cardData={cardData}
+                          ></Card>
                         ))}
-                  </ListGroup>
-                </Col>
-              </Row>
-            </Container>
+                </div>
+              </Col>
+            </Row>
+            <Row style={{ marginTop: "100px" }}></Row>
+            <Row style={{ marginTop: "auto" }}>
+              <Col sm={2} style={{ marginTop: "0" }}>
+                <h4>Last card</h4>
+                <div style={{ height: "180px" }}>
+                  {singleGame.lastPlayed && singleGame.lastPlayed.value ? (
+                    <Card
+                      key={`${singleGame.lastPlayed.value}-${singleGame.lastPlayed.suit}`}
+                      cardClickHandler={onCardClick}
+                      cardData={singleGame.lastPlayed}
+                      flipped={true}
+                    ></Card>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </Col>
+              <Col sm={10}>
+                <ListGroup>
+                  {isLoading
+                    ? ""
+                    : singleGame.users.map((user) => (
+                        <ListGroupItem
+                          style={{ height: "auto" }}
+                          key={user.uid}
+                          variant={user.isMyTurn ? "dark" : ""}
+                        >
+                          <Image
+                            src={user.picture}
+                            roundedCircle
+                            style={{ height: "48px" }}
+                          />
+                          <span
+                            style={{ marginLeft: "24px", fontSize: "24px" }}
+                          >
+                            {user.name}
+                          </span>
+                          {user.isMyTurn && (
+                            <Badge
+                              style={{ marginLeft: "18px" }}
+                              variant="secondary"
+                            >
+                              It's your turn!
+                            </Badge>
+                          )}
+                          <div className="card-hand">
+                            {isLoading && user && user.cards.length > 0
+                              ? ""
+                              : user.cards.map((cardData) => (
+                                  <SmallCard
+                                    key={`sm-${cardData.value}-${cardData.suit}`}
+                                    cardClickHandler={onCardClick}
+                                    cardData={cardData}
+                                  ></SmallCard>
+                                ))}
+                          </div>
+                        </ListGroupItem>
+                      ))}
+                </ListGroup>
+              </Col>
+            </Row>
+            <Row style={{ marginTop: "100px" }}>
+              <Col>
+                <h5>Invite</h5>
+                <Form width="50%">
+                  <Form.Group controlId="formRoom">
+                    <Form.Control
+                      ref={textAreaRef}
+                      placeholder="Room link"
+                      aria-label="Room link"
+                      aria-describedby="basic-addon2"
+                      readOnly
+                      value={`${window.location.origin}/game?action=join&code=${
+                        isLoading ? "" : singleGame.roomCode
+                      }`}
+                    />
+                    <InputGroup.Append
+                      onClick={copyToClipboard}
+                      style={{ marginTop: "14px", marginBottom: "14px" }}
+                    >
+                      <Button variant="outline-secondary">
+                        {navigator.share ? "Invite" : "Copy"}
+                      </Button>
+                    </InputGroup.Append>
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Row>
           </Container>
           {/* </Section> */}
         </>
