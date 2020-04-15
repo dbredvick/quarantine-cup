@@ -5,6 +5,7 @@ import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { useSingleGame, createGameMove } from "../util/db";
 import { useAuth } from "../util/auth";
 import Head from "next/head";
+import Router from "next/router";
 import {
   Jumbotron,
   Container,
@@ -27,6 +28,8 @@ import SmallCard from "./SmallCard";
 
 export default function PlayGameSection(props) {
   const auth = useAuth();
+  const router = useRouter();
+
   const uid = auth.user && auth.user.uid;
   const { data: singleGame, status: otherStatus } = useSingleGame(
     auth.user.uid,
@@ -98,6 +101,13 @@ export default function PlayGameSection(props) {
       console.log(res);
     }
   };
+
+  if (
+    !isLoading &&
+    typeof singleGame.users.find((x) => x.uid == uid) === "undefined"
+  ) {
+    router.push(`/game?action=join&code=${singleGame.roomCode}`);
+  }
   return (
     <>
       <Head>
