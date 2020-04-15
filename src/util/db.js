@@ -30,6 +30,14 @@ export function createUser(uid, data) {
 
 // GAME
 
+// Create a new user
+export function createGameMove(uid, gameId, cardData) {
+  return apiRequest(`game-create-move?uid=${uid}&gameId=${gameId}`, "POST", {
+    uid,
+    ...cardData,
+  });
+}
+
 // Fetch and subscribe to game data
 export function useGame(uid) {
   // Unique cache key for this query
@@ -48,7 +56,7 @@ export function useSingleGame(uid, gameId) {
   // Fetch data with react-query
   return useQuery(cacheKey, query, {
     // Refetch the data every second
-    refetchInterval: 10000,
+    refetchInterval: 5000,
   });
 }
 
@@ -59,12 +67,12 @@ export function updateGame(gameId, uid, data) {
     `game-update?gameId=${gameId}&uid=${uid}`,
     "PATCH",
     data
-  ).then((user) => {
+  ).then((game) => {
     const cacheKey = ["game", { gameId, uid }];
     // Update cache (and as a result, any component that has called useUser)
-    queryCache.setQueryData(cacheKey, user);
+    queryCache.setQueryData(cacheKey, game);
     // Return the updated user
-    return user;
+    return game;
   });
 }
 

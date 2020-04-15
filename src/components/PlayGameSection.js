@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import SectionHeader from "./SectionHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
-import { useSingleGame, useUser } from "../util/db";
+import { useSingleGame, createGameMove } from "../util/db";
 import { useAuth } from "../util/auth";
 import Head from "next/head";
 import {
@@ -22,7 +22,6 @@ import {
 import { isHost, currentUser } from "../util/game-utils";
 
 import "./Cards.scss";
-import { suits } from "../util/constants";
 import Card from "./Card";
 import SmallCard from "./SmallCard";
 
@@ -42,7 +41,7 @@ export default function PlayGameSection(props) {
     ? true
     : singleGame.status === "created";
   const curUser = !isLoading ? currentUser(singleGame) : { name: "no one" };
-  console.log(singleGame);
+
   const [isGuideOpen, setGuideIsOpen] = useState(true);
 
   useEffect(() => {
@@ -83,12 +82,20 @@ export default function PlayGameSection(props) {
     }
   };
 
-  const onCardClick = (cardData) => {
-    const isItUsersTurn = curUser.name !== "no one" && curUser.uid === uid;
+  const onSettingsToggle = () => {
+    // update for everyone else
 
-    if (isItUsersTurn) {
+    setGuideIsOpen(!isGuideOpen);
+  };
+
+  const onCardClick = async (cardData, shouldFlipCardCallback) => {
+    const isItUsersTurn = curUser.name !== "no one" && curUser.uid === uid;
+    if (isItUsersTurn && curUser.isMyTurn) {
       // send move to server to validate
-      console.log("here we are", cardData);
+      shouldFlipCardCallback(true);
+      curUser.isMyTurn = false;
+      const res = await createGameMove(uid, singleGame.id, cardData);
+      console.log(res);
     }
   };
   return (
@@ -155,7 +162,7 @@ export default function PlayGameSection(props) {
                     ))}
               </ListGroup>
 
-              {host && (
+              {true && (
                 <p>
                   <Button
                     variant="red"
@@ -191,7 +198,7 @@ export default function PlayGameSection(props) {
             <Container>
               <Row>
                 <Col>
-                  <h4>{`${curUser.name}'s turn`}</h4>
+                  <h4>{`${curUser && curUser.name}'s turn`}</h4>
                 </Col>
                 <Col>
                   <Button
@@ -225,22 +232,23 @@ export default function PlayGameSection(props) {
                 </Col>
               </Row>
               <Row style={{ marginTop: "100px" }}>
-                <Col>
+                <Col style={{ marginTop: "-180px" }}>
+                  <div
+                    className="d-lg-none"
+                    style={{ marginTop: "180px" }}
+                  ></div>
                   <h4>Last card</h4>
                   <div style={{ height: "180px" }}>
-                    {isLoading
-                      ? ""
-                      : singleGame.state
-                          .filter((x) => x.available)
-                          .slice(0, 1)
-                          .map((cardData) => (
-                            <Card
-                              key={`${cardData.value}-${cardData.suit}`}
-                              cardClickHandler={onCardClick}
-                              cardData={cardData}
-                              flipped={true}
-                            ></Card>
-                          ))}
+                    {singleGame.lastPlayed && singleGame.lastPlayed.value ? (
+                      <Card
+                        key={`${singleGame.lastPlayed.value}-${singleGame.lastPlayed.suit}`}
+                        cardClickHandler={onCardClick}
+                        cardData={singleGame.lastPlayed}
+                        flipped={true}
+                      ></Card>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </Col>
               </Row>
@@ -274,30 +282,15 @@ export default function PlayGameSection(props) {
                               </Badge>
                             )}
                             <div className="card-hand">
-                              {isLoading
+                              {isLoading && user && user.cards.length > 0
                                 ? ""
-                                : singleGame.state
-                                    .filter((x) => x.available)
-                                    .slice(0, 6)
-                                    .map((cardData) => (
-                                      <SmallCard
-                                        key={`sm-${cardData.value}-${cardData.suit}`}
-                                        cardClickHandler={onCardClick}
-                                        cardData={cardData}
-                                      ></SmallCard>
-                                    ))}
-                              {isLoading
-                                ? ""
-                                : singleGame.state
-                                    .filter((x) => x.available)
-                                    .slice(0, 6)
-                                    .map((cardData) => (
-                                      <SmallCard
-                                        key={`sm-${cardData.value}-${cardData.suit}`}
-                                        cardClickHandler={onCardClick}
-                                        cardData={cardData}
-                                      ></SmallCard>
-                                    ))}
+                                : user.cards.map((cardData) => (
+                                    <SmallCard
+                                      key={`sm-${cardData.value}-${cardData.suit}`}
+                                      cardClickHandler={onCardClick}
+                                      cardData={cardData}
+                                    ></SmallCard>
+                                  ))}
                             </div>
                           </ListGroupItem>
                         ))}

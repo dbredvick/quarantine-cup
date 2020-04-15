@@ -4,9 +4,12 @@ import { symbolFromName } from "../util/constants";
 import { useSpring, animated as a } from "react-spring";
 
 export default function Card(props) {
-  const value = props.cardData.value;
-  const suit = props.cardData.suit;
-  const flipped = props.flipped;
+  const {
+    cardData: { value, suit },
+    flipped,
+    cardClickHandler,
+  } = props;
+
   const [isFlipped, setIsFlipped] = useState(flipped);
   const { transform, opacity } = useSpring({
     opacity: isFlipped ? 1 : 0,
@@ -20,8 +23,7 @@ export default function Card(props) {
     <div
       className={flipped ? "single-card-container" : "card-container"}
       onClick={() => {
-        setIsFlipped(true);
-        props.cardClickHandler(props.cardData);
+        cardClickHandler(props.cardData, setIsFlipped);
       }}
     >
       <a.div

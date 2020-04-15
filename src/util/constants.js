@@ -4,9 +4,9 @@ const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"
 export const generateDeckOfCards = () => {
   let deck = [];
   const suitNames = suits.map((x) => x.name);
-  values.map((value) => {
+  values.map((value, i) => {
     suitNames.map((suit) => {
-      deck.push({ suit, value, available: true, played: 0 });
+      deck.push({ suit, value, available: true, played: 0, num: i });
     });
   });
   return shuffle(deck);

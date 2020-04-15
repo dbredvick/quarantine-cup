@@ -30,6 +30,7 @@ export default requireAuth(async (req, res) => {
         picture,
         ...user,
         name: userData.name,
+        cards: [],
         status: "host",
         isMyTurn: true,
       },
@@ -37,6 +38,7 @@ export default requireAuth(async (req, res) => {
     state: generateDeckOfCards(),
     owner: user.uid,
     roomCode: hri.random(),
+    lastPlayed: {},
     status: "created",
   };
 
