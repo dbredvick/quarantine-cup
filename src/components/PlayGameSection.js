@@ -28,7 +28,7 @@ import SmallCard from "./SmallCard";
 
 export default function PlayGameSection(props) {
   const auth = useAuth();
-  const router = useRouter();
+  const Router = useRouter();
 
   const uid = auth.user && auth.user.uid;
   const { data: singleGame, status: otherStatus } = useSingleGame(
