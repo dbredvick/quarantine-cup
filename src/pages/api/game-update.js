@@ -1,6 +1,13 @@
 const requireAuth = require("./_require-auth.js");
-import { useGameByIdOrCode } from "./game-helpers";
+import { useGameByIdOrCode } from "../../server-utils/game-helpers";
 const firebaseAdmin = require("./_firebase");
+
+const getValidGameStatus = (status) => {
+  if (status === "created" || status === "playing" || status === "finished") {
+    return status;
+  }
+  return "playing";
+};
 
 export default requireAuth(async (req, res) => {
   const user = req.user;
@@ -21,28 +28,39 @@ export default requireAuth(async (req, res) => {
   }
 
   const userAlreadyInGame = game.users.map((x) => x.uid).includes(user.uid);
-  if (userAlreadyInGame) {
+  if (userAlreadyInGame && body.name) {
+    // don't need to update if user in game
     return res.send({ status: "success", data: { id: game.id } });
   }
 
   const picture = user.picture
     ? user.picture
-    : `https://api.adorable.io/avatars/285/${user.email}`;
+    : `https://api.hello-avatar.com/adorables/avatars/${user.email}`;
 
   const db = firebaseAdmin.firestore();
-  const userData = {
-    ...user,
-    picture,
-    cards: [],
-    name: body.name,
-    status: "player",
-    isMyTurn: false,
-  };
-  const gameRef = db.collection("games").doc(game.id);
+  if (body.name) {
+    const userData = {
+      ...user,
+      picture,
+      cards: [],
+      name: body.name,
+      status: "player",
+      isMyTurn: false,
+      num: game.users.length,
+    };
+    const gameRef = db.collection("games").doc(game.id);
 
-  gameRef.update({
-    users: firebaseAdmin.firestore.FieldValue.arrayUnion(userData),
-  });
+    gameRef.update({
+      users: firebaseAdmin.firestore.FieldValue.arrayUnion(userData),
+      status: getValidGameStatus(body.status),
+    });
+  } else {
+    const gameRef = db.collection("games").doc(game.id);
+
+    gameRef.update({
+      status: getValidGameStatus(body.status),
+    });
+  }
 
   res.send({
     status: "success",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Cards.scss";
 import { symbolFromName } from "../util/constants";
 import { useSpring, animated as a } from "react-spring";
@@ -8,6 +8,8 @@ export default function Card(props) {
     cardData: { value, suit },
     flipped,
     cardClickHandler,
+    autoFlip,
+    slow,
   } = props;
 
   const [isFlipped, setIsFlipped] = useState(flipped);
@@ -19,11 +21,22 @@ export default function Card(props) {
 
   const isBlack = suit === "spades" || suit === "clubs" ? true : false;
 
+  useEffect(() => {
+    if (autoFlip) {
+      setIsFlipped(true);
+    }
+  }, [value, suit]);
+
   return (
     <div
       className={flipped ? "single-card-container" : "card-container"}
       onClick={() => {
-        cardClickHandler(props.cardData, setIsFlipped);
+        if (cardClickHandler) {
+          cardClickHandler(props.cardData, setIsFlipped, isFlipped);
+        }
+        if (!flipped && !cardClickHandler) {
+          setIsFlipped(!isFlipped);
+        }
       }}
     >
       <a.div
@@ -34,9 +47,9 @@ export default function Card(props) {
         }}
       >
         <div className="card card-flipped">
-          <div class="Aligner-item Aligner-item--top"></div>
-          <div class="Aligner-item">Q</div>
-          <div class="Aligner-item Aligner-item--bottom"></div>
+          <div className="Aligner-item Aligner-item--top"></div>
+          <div className="Aligner-item">Q</div>
+          <div className="Aligner-item Aligner-item--bottom"></div>
         </div>
       </a.div>
       <a.div

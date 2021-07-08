@@ -1,6 +1,6 @@
 const requireAuth = require("./_require-auth.js");
 const firebaseAdmin = require("./_firebase");
-import { useGameByIdOrCode } from "./game-helpers";
+import { useGameByIdOrCode } from "../../server-utils/game-helpers";
 
 export default requireAuth(async (req, res) => {
   const user = req.user;
@@ -64,11 +64,11 @@ export default requireAuth(async (req, res) => {
 
     const result = await gameRef.update({
       state: remainingCards,
-      lastPlayed: body,
+      lastPlayed: { user: userInfo, card: body },
       users:
         nextUser && nextUser.uid
-          ? [userInfo, nextUser, ...otherUsers]
-          : [userInfo, ...otherUsers],
+          ? [nextUser, ...otherUsers, userInfo]
+          : [...otherUsers, userInfo],
     });
 
     res.json({

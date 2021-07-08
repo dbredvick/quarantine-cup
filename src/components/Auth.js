@@ -4,6 +4,7 @@ import AuthForm from "./AuthForm";
 import AuthSocial from "./AuthSocial";
 import AuthFooter from "./AuthFooter";
 import { useRouter } from "next/router";
+import * as Fathom from "fathom-client";
 
 function Auth(props) {
   const router = useRouter();
@@ -11,6 +12,7 @@ function Auth(props) {
   const [formAlert, setFormAlert] = useState(null);
 
   const handleAuth = (user) => {
+    Fathom.trackGoal("BP9QGTFG", 0);
     if (redirectTo) {
       router.push(decodeURIComponent(redirectTo));
     } else {
@@ -52,7 +54,7 @@ function Auth(props) {
                 showLastUsed={true}
                 onAuth={handleAuth}
                 onError={(message) => {
-                  console.log(message);
+                  console.log("error", message);
                   handleFormAlert({
                     type: "error",
                     message: message,

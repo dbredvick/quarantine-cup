@@ -27,7 +27,10 @@ function SectionHeader(props) {
       )}
 
       {props.subtitle && (
-        <p className="SectionHeader__subtitle mb-0">{props.subtitle}</p>
+        <p
+          dangerouslySetInnerHTML={{ __html: props.subtitle }}
+          className="SectionHeader__subtitle mb-0"
+        ></p>
       )}
     </header>
   );

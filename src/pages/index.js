@@ -4,6 +4,7 @@ import ClientsSection from "./../components/ClientsSection";
 import FeaturesSection from "./../components/FeaturesSection";
 import TestimonialsSection from "./../components/TestimonialsSection";
 import NewsletterSection from "./../components/NewsletterSection";
+import ValuePropsSection from "./../components/ValuePropsSection";
 import CardSection from "./../components/CardSection";
 import { useRouter } from "next/router";
 import { apiRequest } from "../util/util";
@@ -11,7 +12,7 @@ import { apiRequest } from "../util/util";
 function IndexPage(props) {
   const router = useRouter();
 
-  const isWorking = router.query.name === "sam";
+  const isWorking = true;
 
   return (
     <>
@@ -22,7 +23,7 @@ function IndexPage(props) {
         bgImage=""
         bgImageOpacity={1}
         title="Quarantine Cup"
-        subtitle="King's cup, but remote-first."
+        subtitle="King's Cup, but remote-first."
         buttonText={isWorking ? "New game" : "Sign up"}
         isWorking={isWorking}
         buttonColor="red"
@@ -49,12 +50,9 @@ function IndexPage(props) {
           e.preventDefault();
           const email = event.target.elements.formBasicEmail.value;
           encodeURIComponent;
-          const resp = await fetch(
-            `/api/newsletter?email=${encodeURIComponent(email)}`
-          );
-          console.log(resp);
+          await fetch(`/api/newsletter?email=${encodeURIComponent(email)}`);
           window.alert(
-            `We sent a confirmation email to ${email}. Thanks for signing up!`
+            `We'll send you a reminder email this weekend at ${email}!`
           );
         }}
       ></HeroSection>
@@ -68,16 +66,16 @@ function IndexPage(props) {
         title=""
         subtitle=""
       ></ClientsSection> */}
-      {isWorking && (
-        <FeaturesSection
+      {true && (
+        <ValuePropsSection
           bg="white"
           textColor="dark"
           size="md"
           bgImage=""
           bgImageOpacity={1}
-          title="The Game"
-          subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
-        ></FeaturesSection>
+          title="The best drinking game for remote groups."
+          subtitle=""
+        ></ValuePropsSection>
       )}
       {/* <TestimonialsSection
         bg="light"
@@ -88,26 +86,38 @@ function IndexPage(props) {
         title="Here's what people are saying"
         subtitle=""
       ></TestimonialsSection> */}
-      {/* <NewsletterSection
+      {false && (
+        <FeaturesSection
+          bg="white"
+          textColor="dark"
+          size="md"
+          bgImage=""
+          bgImageOpacity={1}
+          title="How to play"
+          subtitle="Start playing Quarantine Cup with your friends with just a few clicks"
+        ></FeaturesSection>
+      )}
+
+      <NewsletterSection
         bg="white"
         textColor="dark"
         size="md"
         bgImage=""
         bgImageOpacity={1}
-        title="Stay in the know"
-        subtitle="Receive our latest articles and feature updates"
-        buttonText="Subscribe"
+        title="Want a reminder to play this weekend?"
+        subtitle="We'll email you a link and a getting started guide."
+        buttonText="Remind me"
         buttonColor="red"
         inputPlaceholder="Enter your email"
-        subscribedMessage="You are now subscribed!"
-      ></NewsletterSection> */}
+        subscribedMessage="Check your inbox this Friday!"
+      ></NewsletterSection>
     </>
   );
 }
 
 // Disable static prerendering
 export const getStaticProps = async () => {
-  return {};
+  return { props: {} };
 };
 
 export default IndexPage;

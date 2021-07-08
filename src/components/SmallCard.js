@@ -13,7 +13,9 @@ export default function SmallCard(props) {
     <div
       onClick={() => {
         setIsFlipped(true);
-        props.cardClickHandler(props.cardData);
+        if (props.cardClickHandler) {
+          props.cardClickHandler(props.cardData);
+        }
       }}
     >
       {!isFlipped && (

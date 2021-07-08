@@ -15,4 +15,7 @@ function PricingPage(props) {
   );
 }
 
+export const getStaticProps = async () => {
+  return { props: {} };
+};
 export default PricingPage;

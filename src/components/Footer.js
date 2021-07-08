@@ -1,6 +1,7 @@
 import React from "react";
 import Section from "./Section";
 import Container from "react-bootstrap/Container";
+import Image from "react-bootstrap/Image";
 import Link from "next/link";
 import "./Footer.scss";
 
@@ -23,6 +24,7 @@ function Footer(props) {
               </a>
             </Link> */}
           </div>
+          <div className="brand center"></div>
           <div className="links right">
             {/* <Link href="/about">
               <a>About</a>

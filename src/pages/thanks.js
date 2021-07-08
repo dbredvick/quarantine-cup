@@ -17,6 +17,6 @@ function ThanksPage(props) {
   );
 }
 
-export const getStaticProps = () => {};
+export const getStaticProps = () => ({ props: {} });
 
 export default ThanksPage;

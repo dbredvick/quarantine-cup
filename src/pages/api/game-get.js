@@ -1,6 +1,6 @@
 const requireAuth = require("./_require-auth.js");
 const firebaseAdmin = require("./_firebase");
-import { useGameByIdOrCode } from "./game-helpers";
+import { useGameByIdOrCode } from "../../server-utils/game-helpers";
 
 export default requireAuth(async (req, res) => {
   const user = req.user;

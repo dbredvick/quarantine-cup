@@ -4,8 +4,13 @@ import Col from "react-bootstrap/Col";
 import SectionHeader from "./SectionHeader";
 import Image from "react-bootstrap/Image";
 import "./Features.scss";
+import Card from "./Card";
 
 function Features(props) {
+  const renderCard = () => (
+    <Card cardData={{ value: "A", suit: "spades" }} autoFlip={true}></Card>
+  );
+
   return (
     <div className="Features">
       {props.items.map((item, index) => (
@@ -20,9 +25,19 @@ function Features(props) {
             ></SectionHeader>
           </Col>
           <Col>
-            <figure className="Features__image-container">
-              <Image src={item.image} alt={item.title} fluid={true}></Image>
-            </figure>
+            {item.image && (
+              <figure className="Features__image-container">
+                <Image src={item.image} alt={item.title} fluid={true}></Image>
+              </figure>
+            )}
+            {item.showCard && (
+              <figure
+                className="Features__image-container"
+                style={{ marginTop: "72px" }}
+              >
+                {renderCard()}
+              </figure>
+            )}
           </Col>
         </Row>
       ))}

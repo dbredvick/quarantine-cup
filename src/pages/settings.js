@@ -34,9 +34,8 @@ function SettingsPage(props) {
   );
 }
 
-// Disable static prerendering
 export const getStaticProps = async () => {
-  return {};
+  return { props: {} };
 };
 
 export default SettingsPage;

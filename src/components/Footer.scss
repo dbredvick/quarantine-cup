@@ -38,11 +38,15 @@
     // Tablet and up
     @media screen and (min-width: 768px) {
       > div {
-        flex: 50%;
+        flex: 33%;
       }
 
       .left {
         justify-content: flex-start;
+      }
+
+      .center {
+        justify-content: center;
       }
 
       .right {

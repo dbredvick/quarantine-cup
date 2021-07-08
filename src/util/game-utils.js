@@ -15,7 +15,7 @@ export const getLastPlay = (game) => {
 };
 
 export const currentUser = (game) => {
-  return game.users.find((x) => x.isMyTurn === true);
+  return game?.users.find((x) => x.isMyTurn === true);
 };
 
 export const numberOfPlayers = (game) => {

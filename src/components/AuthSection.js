@@ -9,7 +9,8 @@ function AuthSection(props) {
   const allTypeValues = {
     signin: {
       // Top title
-      title: "Welcome!",
+      title: "Let's get you signed in so you can play!",
+      subtitle: `No account yet? <a href="/auth/signup">Sign up here</a>.`,
       // Submit button text
       buttonText: "Sign in",
       // Link text to other auth types
@@ -52,7 +53,7 @@ function AuthSection(props) {
       >
         <SectionHeader
           title={allTypeValues[currentType].title}
-          subtitle=""
+          subtitle={allTypeValues[currentType].subtitle}
           size={2}
           spaced={true}
           className="text-center"

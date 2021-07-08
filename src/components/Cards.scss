@@ -41,8 +41,20 @@ $font-stack: Helvetica, sans-serif;
 }
 
 .circle-container {
-  @include on-circle($item-count: 6, $circle-size: 18em, $item-size: 170px);
+  @include on-circle($item-count: 6, $circle-size: 18em, $item-size: 150px);
   margin: 5em auto 0;
+
+  .card {
+    filter: drop-shadow(5px 9px 4px #3e3e3e);
+    width: 72px;
+    height: 120px;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: $base-size;
+    font-family: $font-stack;
+    margin: 12px;
+    padding: 3px;
+  }
 }
 
 .deck {
@@ -64,18 +76,6 @@ $font-stack: Helvetica, sans-serif;
   font-family: $font-stack;
   margin: 6px;
   padding: 1.5px;
-}
-
-.card {
-  filter: drop-shadow(5px 9px 4px #3e3e3e);
-  width: 72px;
-  height: 120px;
-  background-color: #fff;
-  border: 1px solid black;
-  border-radius: $base-size;
-  font-family: $font-stack;
-  margin: 12px;
-  padding: 3px;
 }
 
 .card-black {
@@ -148,6 +148,17 @@ $font-stack: Helvetica, sans-serif;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  .card {
+    filter: drop-shadow(5px 9px 4px #3e3e3e);
+    width: 72px;
+    height: 120px;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: $base-size;
+    font-family: $font-stack;
+    margin: 12px;
+    padding: 3px;
+  }
 }
 
 .single-card-container {
@@ -155,6 +166,17 @@ $font-stack: Helvetica, sans-serif;
   align-items: flex-start;
   justify-content: flex-start;
   overflow: hidden;
+  .card {
+    filter: drop-shadow(5px 9px 4px #3e3e3e);
+    width: 72px;
+    height: 120px;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: $base-size;
+    font-family: $font-stack;
+    margin: 12px;
+    padding: 3px;
+  }
 }
 
 .card-hand {
@@ -163,6 +185,17 @@ $font-stack: Helvetica, sans-serif;
   justify-content: flex-start;
   align-items: center;
   overflow-x: scroll;
+  .card {
+    filter: drop-shadow(5px 9px 4px #3e3e3e);
+    width: 72px;
+    height: 120px;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: $base-size;
+    font-family: $font-stack;
+    margin: 12px;
+    padding: 3px;
+  }
 }
 
 .c {

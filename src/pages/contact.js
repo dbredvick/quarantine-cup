@@ -19,6 +19,6 @@ function ContactPage(props) {
   );
 }
 
-export const getStaticProps = () => {};
+export const getStaticProps = () => ({ props: {} });
 
 export default ContactPage;

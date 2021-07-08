@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import SectionHeader from "./SectionHeader";
 import Features from "./Features";
 
-function FeaturesSection(props) {
+function ValuePropsSection(props) {
   return (
     <Section
       bg={props.bg}
@@ -24,20 +24,20 @@ function FeaturesSection(props) {
         <Features
           items={[
             {
-              title: "Start a call",
+              title: "Just like King's Cup, but remote",
               description:
-                "Video call your friends on your favorite platform - Zoom, Hangouts, Facebook, etc.",
+                "We made a virtual version of King's Cup so you can party on while in quarantine",
               image: "/video-call.svg",
             },
             {
-              title: "Create a room",
-              description: `Click "New Game" above to start a room. You'll need to create an account if you haven't done that yet.`,
+              title: "Unlimited players",
+              description: `We don't limit the number of players in a game or number of games played.`,
               image: "/room.svg",
             },
             {
-              title: "Share and play",
-              description: `Share the link with all your friends. As soon as they all join, click "Let's play".`,
-              image: "/playing-cards.svg",
+              title: "Free to play",
+              description: `We're not charging anything up front. At the end of the game there's an option to buy me a beer if you're feeling generous 🍻`,
+              image: "/money.svg",
             },
           ]}
         ></Features>
@@ -46,4 +46,4 @@ function FeaturesSection(props) {
   );
 }
 
-export default FeaturesSection;
+export default ValuePropsSection;

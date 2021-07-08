@@ -20,7 +20,7 @@ export default requireAuth(async (req, res) => {
 
   const picture = user.picture
     ? user.picture
-    : `https://api.adorable.io/avatars/285/${user.email}`;
+    : `https://api.hello-avatar.com/adorables/avatars/${user.email}`;
 
   const game = {
     name: `${userData.name}'s game`,
@@ -33,6 +33,7 @@ export default requireAuth(async (req, res) => {
         cards: [],
         status: "host",
         isMyTurn: true,
+        num: 0,
       },
     ],
     state: generateDeckOfCards(),

@@ -2,10 +2,20 @@ import React, { useState, useRef, useEffect } from "react";
 import SectionHeader from "./SectionHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
-import { useSingleGame, createGameMove } from "../util/db";
+import LastPlayedCard from "./LastPlayedCard";
+import UserTile from "./UserTile";
+import GameOverModal from "./GameOverModal";
+import {
+  useSingleGame,
+  createGameMove,
+  useFirebaseGame,
+  resetGame,
+  updateGame,
+} from "../util/db";
 import { useAuth } from "../util/auth";
+import analytics from "../util/analytics";
 import Head from "next/head";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import {
   Jumbotron,
   Container,
@@ -20,11 +30,15 @@ import {
   Badge,
 } from "react-bootstrap";
 
+import * as Fathom from "fathom-client";
+
 import { isHost, currentUser } from "../util/game-utils";
 
 import "./Cards.scss";
 import Card from "./Card";
 import SmallCard from "./SmallCard";
+
+import LogRocket from "logrocket";
 
 export default function PlayGameSection(props) {
   const auth = useAuth();
@@ -35,15 +49,25 @@ export default function PlayGameSection(props) {
     auth.user.uid,
     props.gameId
   );
+
+  if (auth.user && auth.user.uid) {
+    LogRocket.identify(auth.user.uid, {
+      ...auth.user,
+    });
+  }
+
+  const res = useFirebaseGame(singleGame?.id);
   const textAreaRef = useRef(null);
 
-  const isLoading = otherStatus === "loading";
+  const isLoading = res.status === "loading";
 
-  const host = isLoading ? false : isHost(singleGame, uid);
-  const isOpenGuideFirstTime = isLoading
+  const host = isLoading ? false : isHost(res.data, uid);
+  const shouldInstructionsBeOpen = isLoading
     ? true
-    : singleGame.status === "created";
-  const curUser = !isLoading ? currentUser(singleGame) : { name: "no one" };
+    : res.data.status === "created";
+  const curUser = !isLoading
+    ? currentUser(res.data)
+    : { name: "no one", picture: "" };
 
   const [isGuideOpen, setGuideIsOpen] = useState(true);
 
@@ -64,17 +88,18 @@ export default function PlayGameSection(props) {
       navigator
         .share({
           title: `${window.location.origin}/game?action=join&code=${
-            isLoading ? "" : singleGame.roomCode
+            isLoading ? "" : res.data.roomCode
           }`,
           url: `${window.location.origin}/game?action=join&code=${
-            isLoading ? "" : singleGame.roomCode
+            isLoading ? "" : res.data.roomCode
           }`,
           text: `${window.location.origin}/game?action=join&code=${
-            isLoading ? "" : singleGame.roomCode
+            isLoading ? "" : res.data.roomCode
           }`,
         })
         .then(() => {
           console.log("Thanks for sharing!");
+          // metric goes here
         })
         .catch(console.error);
     } else {
@@ -89,6 +114,10 @@ export default function PlayGameSection(props) {
     // update for everyone else
 
     setGuideIsOpen(!isGuideOpen);
+    updateGame(singleGame?.id, uid, { status: "playing" });
+    Fathom.trackGoal("EHWHHISZ", 0);
+
+    // set game status on server
   };
 
   const onCardClick = async (cardData, shouldFlipCardCallback) => {
@@ -97,36 +126,34 @@ export default function PlayGameSection(props) {
       // send move to server to validate
       shouldFlipCardCallback(true);
       curUser.isMyTurn = false;
-      const res = await createGameMove(uid, singleGame.id, cardData);
-      console.log(res);
+      setTimeout(() => {
+        createGameMove(uid, res.data.id, cardData);
+      }, 1000);
     }
+  };
+
+  const resetGameClick = () => {
+    // user clicked something that should reset the game
+    resetGame(uid, res.data.id);
   };
 
   if (
     !isLoading &&
-    typeof singleGame.users.find((x) => x.uid == uid) === "undefined"
+    typeof res.data.users.find((x) => x.uid == uid) === "undefined"
   ) {
-    router.push(`/game?action=join&code=${singleGame.roomCode}`);
+    Router.push(`/game?action=join&code=${res.data.roomCode}`);
   }
   return (
     <>
-      <Head>
-        <script
-          data-name="BMC-Widget"
-          data-id="drewbredvick"
-          data-description="Support my server costs & beer fund."
-          data-message="Thanks for playing. Buy me a beer if you liked the game!"
-          data-color="#FF5F5F"
-          data-position="right"
-          data-x_margin="18"
-          data-y_margin="18"
-        ></script>
-      </Head>
-      {isOpenGuideFirstTime && isGuideOpen && (
+      <GameOverModal
+        isGameOver={isLoading ? false : res.data.state.length === 0}
+        resetGameCallback={resetGameClick}
+      ></GameOverModal>
+      {shouldInstructionsBeOpen && (
         <div id="guide">
           <Jumbotron fluid>
             <Container>
-              <h1>{`${isLoading ? "" : singleGame.name}`}</h1>
+              <h1>{`${isLoading ? "" : res.data.name}`}</h1>
               <p>{getStartingMessage()}</p>
               <p>
                 {host
@@ -143,7 +170,7 @@ export default function PlayGameSection(props) {
                     aria-describedby="basic-addon2"
                     readOnly
                     value={`${window.location.origin}/game?action=join&code=${
-                      isLoading ? "" : singleGame.roomCode
+                      isLoading ? "" : res.data.roomCode
                     }`}
                   />
                   <InputGroup.Append
@@ -160,7 +187,7 @@ export default function PlayGameSection(props) {
               <ListGroup>
                 {isLoading
                   ? ""
-                  : singleGame.users.map((user) => (
+                  : res.data.users.map((user) => (
                       <ListGroupItem style={{ height: "72px" }} key={user.uid}>
                         <Image
                           src={user.picture}
@@ -172,15 +199,12 @@ export default function PlayGameSection(props) {
                     ))}
               </ListGroup>
 
-              {true && (
+              {host && (
                 <p>
                   <Button
                     variant="red"
                     style={{ marginTop: "16px" }}
-                    onClick={() => {
-                      // set state of game in update as well
-                      setGuideIsOpen(false);
-                    }}
+                    onClick={onSettingsToggle}
                   >
                     Let's Play
                   </Button>
@@ -190,7 +214,7 @@ export default function PlayGameSection(props) {
           </Jumbotron>
         </div>
       )}
-      {(!isGuideOpen || !isOpenGuideFirstTime) && (
+      {!shouldInstructionsBeOpen && (
         <>
           {/* <Section
             bg={props.bg}
@@ -215,10 +239,10 @@ export default function PlayGameSection(props) {
             </Row>
             <Row>
               <Col>
-                <div className="circle-container">
+                <div className="circle-container" style={{ zoom: ".8" }}>
                   {isLoading
                     ? ""
-                    : singleGame.state
+                    : res.data.state
                         .filter((x) => x.available)
                         .slice(0, 6)
                         .map((cardData) => (
@@ -231,68 +255,38 @@ export default function PlayGameSection(props) {
                 </div>
               </Col>
             </Row>
-            <Row style={{ marginTop: "100px" }}></Row>
-            <Row style={{ marginTop: "auto" }}>
-              <Col sm={2} style={{ marginTop: "0" }}>
-                <h4>Last card</h4>
-                <div style={{ height: "180px" }}>
-                  {singleGame.lastPlayed && singleGame.lastPlayed.value ? (
-                    <Card
-                      key={`${singleGame.lastPlayed.value}-${singleGame.lastPlayed.suit}`}
-                      cardClickHandler={onCardClick}
-                      cardData={singleGame.lastPlayed}
-                      flipped={true}
-                    ></Card>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </Col>
-              <Col sm={10}>
+            <Row style={{ marginTop: "120px" }}>
+              {res && res.data && res.data.lastPlayed && (
+                <h4>{res.data.state.length} cards left!</h4>
+              )}
+            </Row>
+            <Row>
+              {res && res.data && res.data.lastPlayed && (
+                <LastPlayedCard cardData={res.data.lastPlayed}></LastPlayedCard>
+              )}
+            </Row>
+            <Row style={{ marginTop: "60px" }}>
+              <Col sm={12}>
                 <ListGroup>
                   {isLoading
                     ? ""
-                    : singleGame.users.map((user) => (
-                        <ListGroupItem
-                          style={{ height: "auto" }}
-                          key={user.uid}
-                          variant={user.isMyTurn ? "dark" : ""}
-                        >
-                          <Image
-                            src={user.picture}
-                            roundedCircle
-                            style={{ height: "48px" }}
+                    : res.data.users
+                        .sort((x, y) => (x.num > y.num ? 1 : -1))
+                        .map((user) => (
+                          <UserTile
+                            key={user.num}
+                            userData={user}
+                            isMyTurn={
+                              isLoading ||
+                              (user && user.cards.length == 0) ||
+                              auth.user.uid !== user.uid
+                            }
                           />
-                          <span
-                            style={{ marginLeft: "24px", fontSize: "24px" }}
-                          >
-                            {user.name}
-                          </span>
-                          {user.isMyTurn && (
-                            <Badge
-                              style={{ marginLeft: "18px" }}
-                              variant="secondary"
-                            >
-                              It's your turn!
-                            </Badge>
-                          )}
-                          <div className="card-hand">
-                            {isLoading && user && user.cards.length > 0
-                              ? ""
-                              : user.cards.map((cardData) => (
-                                  <SmallCard
-                                    key={`sm-${cardData.value}-${cardData.suit}`}
-                                    cardClickHandler={onCardClick}
-                                    cardData={cardData}
-                                  ></SmallCard>
-                                ))}
-                          </div>
-                        </ListGroupItem>
-                      ))}
+                        ))}
                 </ListGroup>
               </Col>
             </Row>
-            <Row style={{ marginTop: "100px" }}>
+            <Row style={{ marginTop: "40px" }}>
               <Col>
                 <h5>Invite</h5>
                 <Form width="50%">
@@ -304,7 +298,7 @@ export default function PlayGameSection(props) {
                       aria-describedby="basic-addon2"
                       readOnly
                       value={`${window.location.origin}/game?action=join&code=${
-                        isLoading ? "" : singleGame.roomCode
+                        isLoading ? "" : res.data.roomCode
                       }`}
                     />
                     <InputGroup.Append
